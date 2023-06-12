@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:le_grand_magazine/pages/home_page.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.red, statusBarIconBrightness: Brightness.light));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   runApp(const MyApp());
 }
 
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Le Grand Magazine',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.red), useMaterial3: true),
+      theme: ThemeData(primarySwatch: Colors.red, visualDensity: VisualDensity.adaptivePlatformDensity),
       debugShowCheckedModeBanner: false,
       home:  const HomePage(),
     );
