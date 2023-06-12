@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/frontend/widgets/carousel.dart';
 import 'package:le_grand_magazine/frontend/widgets/section_text.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             SectionText(text: "Breaking News", onSeeMorePressed: () {}),
+            const Carousel(),
             SectionText(text: "Recommandation", onSeeMorePressed: () {}),
           ],
         ),
