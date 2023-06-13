@@ -22,15 +22,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.5,
-          title: Image.asset("assets/images/logo.png", width: 100, height: 100),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search, color: Colors.black)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined, color: Colors.black))
-          ],
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -55,19 +46,6 @@ class _HomePageState extends State<HomePage> {
                   itemCount: articles.length),
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          iconSize: 25,
-          currentIndex: currentPage,
-          onTap: (index) => setState(() => currentPage = index),
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.language), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: ''),
-          ],
         ),
       ),
     );
