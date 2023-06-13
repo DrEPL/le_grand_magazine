@@ -9,7 +9,7 @@ class RecommendedArticle extends StatelessWidget {
 
   final Color iconColor;
 
-  final Function()? onIconPressed;
+  final Function()? onIconPressed, onTap;
 
   const RecommendedArticle({
     super.key,
@@ -20,56 +20,60 @@ class RecommendedArticle extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     required this.onIconPressed,
+    required this.onTap,
   });
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: MediaQuery.of(context).size.width,
-    height: 150,
-    child: Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: Image.asset(imageUrl, fit: BoxFit.cover),
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: onTap,
+    child: SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 150,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: SizedBox(
+              width: 150,
+              height: 150,
+              child: Image.asset(imageUrl, fit: BoxFit.cover),
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: 210,
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
-                maxLines: 3,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 210,
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                  maxLines: 3,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 220,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    _displayPublicationDate(),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
-                  ),
-                  IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
-                ],
+              SizedBox(
+                width: 220,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      _displayPublicationDate(),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
+                    ),
+                    IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     ),
   );
 
