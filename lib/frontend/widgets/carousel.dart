@@ -26,7 +26,7 @@ class _CarouselState extends State<Carousel> {
             autoPlay: true,
             height: 280,
             initialPage: 0,
-            autoPlayInterval: const Duration(seconds: 2),
+            autoPlayInterval: const Duration(seconds: 5),
             enlargeCenterPage: true,
             onPageChanged: (index, reason) => setState(() => activeIndex = index),
           ),
