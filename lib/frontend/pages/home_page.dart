@@ -14,8 +14,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> categories = ["Toutes", "Afrique", "Politique", "Economie", "Société", "Sport", "Culture", "Agenda", "Science"];
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
