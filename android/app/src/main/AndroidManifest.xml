@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="le_grand_magazine"
+        android:label="Le Grand Magazine"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
