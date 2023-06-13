@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/pages/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -9,7 +10,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final screens = [const HomePage()];
+  final screens = const [HomePage(), DiscoverPage()];
 
   int currentPage = 0;
 
