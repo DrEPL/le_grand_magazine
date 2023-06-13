@@ -58,7 +58,7 @@ class _CarouselState extends State<Carousel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Il y a ${time.inMinutes} minutes", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontSize: 11)),
+          Text(displayTime(time: time), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontSize: 11)),
           const SizedBox(height: 8),
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -73,6 +73,22 @@ class _CarouselState extends State<Carousel> {
         ],
       ),
     );
+  }
+
+  String displayTime({required Duration time}){
+    if(time.inSeconds < 60){
+      return "Il y a ${time.inSeconds} secondes";
+    }
+
+    if(time.inMinutes < 60){
+      return "Il y a ${time.inMinutes} minutes";
+    }
+
+    if(time.inMinutes >= 60){
+      return "Plutôt dans la journée";
+    }
+
+    return "";
   }
 
   Positioned _buildCategory(int index, BuildContext context) {
