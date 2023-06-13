@@ -18,9 +18,9 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          bottomOpacity: 0.0,
-          elevation: 0,
+          backgroundColor: Colors.white,
+          elevation: 0.3,
+          title: Image.asset("assets/images/logo.png", width: 100, height: 100),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.search, color: Colors.black)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined, color: Colors.black))
