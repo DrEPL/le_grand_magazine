@@ -25,10 +25,12 @@ class _HomePageState extends State<HomePage> {
           const Carousel(),
           SectionText(text: AppStrings.recommendation, onSeeMorePressed: () {}),
           ListView.separated(
-              primary: false,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return RecommendedArticle(
+            primary: false,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: RecommendedArticle(
                   title: articles[index].title,
                   category: articles[index].category.displayName(),
                   imageUrl: articles[index].image,
@@ -36,10 +38,12 @@ class _HomePageState extends State<HomePage> {
                   icon: articles[index].isSaved ? Icons.bookmark : Icons.bookmark_outline,
                   iconColor: articles[index].isSaved ? Colors.red : Colors.grey,
                   onIconPressed: () {},
-                );
-              },
-              separatorBuilder: (context, _) => const SizedBox(height: 5),
-              itemCount: articles.length),
+                ),
+              );
+            },
+            separatorBuilder: (context, _) => const SizedBox(height: 5),
+            itemCount: articles.length,
+          ),
         ],
       ),
     );
