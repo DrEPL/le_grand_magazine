@@ -23,6 +23,7 @@ class _CarouselState extends State<Carousel> {
         CarouselSlider.builder(
           itemCount: articles.length,
           options: CarouselOptions(
+            autoPlay: true,
             height: 280,
             initialPage: 0,
             autoPlayInterval: const Duration(seconds: 2),
