@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/carousel.dart';
 import 'package:le_grand_magazine/frontend/widgets/section_text.dart';
 
@@ -27,9 +28,9 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Column(
           children: [
-            SectionText(text: "Breaking News", onSeeMorePressed: () {}),
+            SectionText(text: AppStrings.breakingNews, onSeeMorePressed: () {}),
             const Carousel(),
-            SectionText(text: "Recommandation", onSeeMorePressed: () {}),
+            SectionText(text: AppStrings.recommendation, onSeeMorePressed: () {}),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
