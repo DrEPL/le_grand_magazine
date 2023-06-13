@@ -1,9 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/backend/models/article.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../models/article.dart';
 
 class Carousel extends StatefulWidget {
   const Carousel({super.key});
