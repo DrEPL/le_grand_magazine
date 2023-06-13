@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_service.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
+import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Carousel extends StatefulWidget {
@@ -31,9 +32,12 @@ class _CarouselState extends State<Carousel> {
             onPageChanged: (index, reason) => setState(() => activeIndex = index),
           ),
           itemBuilder: (context, index, realIndex) {
-            final image = articles[index];
-
-            return Stack(children: [_buildImage(index), _buildCategory(index, context), _buildTimeAndTitle(context, index)]);
+            return GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
+              child: Stack(
+                children: [_buildImage(index), _buildCategory(index, context), _buildTimeAndTitle(context, index)],
+              ),
+            );
           },
         ),
         const SizedBox(height: 24),
@@ -76,16 +80,16 @@ class _CarouselState extends State<Carousel> {
     );
   }
 
-  String displayTime({required Duration time}){
-    if(time.inSeconds < 60){
+  String displayTime({required Duration time}) {
+    if (time.inSeconds < 60) {
       return "Il y a ${time.inSeconds} secondes";
     }
 
-    if(time.inMinutes < 60){
+    if (time.inMinutes < 60) {
       return "Il y a ${time.inMinutes} minutes";
     }
 
-    if(time.inMinutes >= 60){
+    if (time.inMinutes >= 60) {
       return "Plutôt dans la journée";
     }
 

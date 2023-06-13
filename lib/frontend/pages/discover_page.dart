@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_service.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
+import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 
@@ -24,7 +25,7 @@ class DiscoverPage extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return CategoryChip(label: categories[index].displayName());
+                  return CategoryChip(label: categories[index].displayName(), labelColor: Colors.white, backgroundColor: Colors.red);
                 },
                 separatorBuilder: (context, _) {
                   return const SizedBox(width: 5);
@@ -44,6 +45,7 @@ class DiscoverPage extends StatelessWidget {
                   icon: articles[index].isSaved ? Icons.bookmark : Icons.bookmark_outline,
                   iconColor: articles[index].isSaved ? Colors.red : Colors.grey,
                   onIconPressed: () {},
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
                 );
               },
               separatorBuilder: (context, _) => const SizedBox(height: 5),
