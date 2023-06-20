@@ -12,7 +12,7 @@ class ArticleDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final time = DateTime.now().difference(article.publicationDate);
     return Scaffold(
-      body: Container(
+      body:  SizedBox(
         width: double.maxFinite,
         height: double.maxFinite,
         child: Stack(

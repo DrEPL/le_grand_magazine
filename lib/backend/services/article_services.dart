@@ -1,7 +1,7 @@
 import 'package:le_grand_magazine/backend/models/article.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
 
-class ArticleService {
+class ArticleServices {
   final List<Article> _articles = [
     Article(
       image: 'assets/images/article_1.png',

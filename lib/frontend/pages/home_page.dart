@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:le_grand_magazine/backend/services/article_service.dart';
+import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final articles = ArticleService().articles;
+  final articles = ArticleServices().articles;
 
   @override
   Widget build(BuildContext context) {

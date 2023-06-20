@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:le_grand_magazine/frontend/pages/home_page.dart';
 import 'package:le_grand_magazine/frontend/pages/main_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 

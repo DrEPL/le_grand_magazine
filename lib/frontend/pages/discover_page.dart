@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:le_grand_magazine/backend/services/article_service.dart';
+import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
+import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 
@@ -11,15 +12,15 @@ class DiscoverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const categories = Category.values;
-    final articles = ArticleService().articles;
+    final articles = ArticleServices().articles;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Découvrez", style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 40)),
-            Text("Des nouvelles du monde entier", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: Colors.black)),
+            Text(AppStrings.discover, style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 40)),
+            Text(AppStrings.allNews, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: Colors.black)),
             SizedBox(
               height: 80,
               child: ListView.separated(

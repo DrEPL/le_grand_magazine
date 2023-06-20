@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:le_grand_magazine/backend/services/article_service.dart';
+import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -15,7 +15,7 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   int activeIndex = 0;
 
-  final articles = ArticleService().articles;
+  final articles = ArticleServices().articles;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,9 @@ class _CarouselState extends State<Carousel> {
             initialPage: 0,
             autoPlayInterval: const Duration(seconds: 5),
             enlargeCenterPage: true,
-            onPageChanged: (index, reason) => setState(() => activeIndex = index),
+            onPageChanged: (index, _) => setState(() => activeIndex = index),
           ),
-          itemBuilder: (context, index, realIndex) {
+          itemBuilder: (context, index, _) {
             return GestureDetector(
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
               child: Stack(
@@ -40,15 +40,11 @@ class _CarouselState extends State<Carousel> {
             );
           },
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 25),
         AnimatedSmoothIndicator(
           activeIndex: activeIndex,
           count: articles.length,
-          effect: ExpandingDotsEffect(
-            activeDotColor: Theme.of(context).primaryColor,
-            dotHeight: 5,
-            dotWidth: 5,
-          ),
+          effect: ExpandingDotsEffect(activeDotColor: Theme.of(context).primaryColor, dotHeight: 5, dotWidth: 5),
         ),
       ],
     );
