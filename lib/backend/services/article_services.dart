@@ -38,7 +38,7 @@ class ArticleServices {
       category: Category.Politique,
       source: 'Adiac',
       publicationDate: DateTime(2023, 5, 24, 15, 11),
-      isSaved: false,
+      isSaved: true,
     ),
     Article(
       image: 'assets/images/article_3.png',

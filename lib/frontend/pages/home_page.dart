@@ -7,6 +7,8 @@ import 'package:le_grand_magazine/frontend/widgets/carousel.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 import 'package:le_grand_magazine/frontend/widgets/section_text.dart';
 
+import 'breakingNews.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -22,7 +24,9 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SectionText(text: AppStrings.breakingNews, onSeeMorePressed: () {}),
+          SectionText(text: AppStrings.breakingNews, onSeeMorePressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const BreakingNews()));
+          }),
           const Carousel(),
           SectionText(text: AppStrings.recommendation, onSeeMorePressed: () {}),
           ListView.separated(
@@ -31,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: RecommendedArticle(
+                child: SizedBox(width: 100,child: RecommendedArticle(
                   title: articles[index].title,
                   category: articles[index].category.displayName(),
                   imageUrl: articles[index].image,
@@ -40,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                   iconColor: articles[index].isSaved ? Colors.red : Colors.grey,
                   onIconPressed: () {},
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
-                ),
+                )),
               );
             },
             separatorBuilder: (context, _) => const SizedBox(height: 5),

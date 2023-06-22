@@ -34,8 +34,8 @@ class RecommendedArticle extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: SizedBox(
-              width: 150,
-              height: 150,
+              width: MediaQuery.of(context).size.width < 400 ? 130 : 150,
+              height: MediaQuery.of(context).size.width < 400 ? 130 : 150,
               child: Image.asset(imageUrl, fit: BoxFit.cover),
             ),
           ),

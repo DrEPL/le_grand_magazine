@@ -69,7 +69,7 @@ class ArticleDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CategoryChip(label: article.category.displayName(), labelColor: Colors.white, backgroundColor: Colors.red),
+                      CategoryChip(label: article.category.displayName(), labelColor: Colors.white, backgroundColor: Colors.red, onTap: (){},),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -174,7 +174,7 @@ class ArticleDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryChip(label: article.category.displayName(), labelColor: Colors.white, backgroundColor: Colors.red),
+                  CategoryChip(label: article.category.displayName(), labelColor: Colors.white, backgroundColor: Colors.red, onTap: () {},),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

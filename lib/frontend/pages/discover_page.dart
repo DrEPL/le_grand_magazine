@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
-import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
-import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
+import '../widgets/SwitchCategory.dart';
 
-class DiscoverPage extends StatelessWidget {
+class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
+
+  @override
+  State<DiscoverPage> createState() => _DiscoverPageState();
+}
+
+class _DiscoverPageState extends State<DiscoverPage> {
+  int _currentCategoryIndex = 0;
+  dynamic categorySelected = "Toutes";
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,16 @@ class DiscoverPage extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return CategoryChip(label: categories[index].displayName(), labelColor: Colors.white, backgroundColor: Colors.red);
+                  return CategoryChip(
+                    label: categories[index].displayName(),
+                    labelColor: _currentCategoryIndex == index ? Colors.white : Colors.red,
+                    backgroundColor: _currentCategoryIndex == index ?Colors.red : Colors.white,
+                    onTap: () {
+                      setState(() {
+                        _currentCategoryIndex = index;
+                        categorySelected = categories[index].displayName();
+                      });
+                    });
                 },
                 separatorBuilder: (context, _) {
                   return const SizedBox(width: 5);
@@ -38,16 +54,7 @@ class DiscoverPage extends StatelessWidget {
               primary: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return RecommendedArticle(
-                  title: articles[index].title,
-                  category: articles[index].category.displayName(),
-                  imageUrl: articles[index].image,
-                  publicationDate: articles[index].publicationDate,
-                  icon: articles[index].isSaved ? Icons.bookmark : Icons.bookmark_outline,
-                  iconColor: articles[index].isSaved ? Colors.red : Colors.grey,
-                  onIconPressed: () {},
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
-                );
+                return switchCategory(categorySelected, articles, index, context);
               },
               separatorBuilder: (context, _) => const SizedBox(height: 5),
               itemCount: articles.length,
@@ -58,3 +65,4 @@ class DiscoverPage extends StatelessWidget {
     );
   }
 }
+
