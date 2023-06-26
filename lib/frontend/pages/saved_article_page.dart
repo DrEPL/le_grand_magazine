@@ -53,7 +53,7 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
               ),
             ),
             SizedBox(
-              height: 500,
+              height: MediaQuery.of(context).size.height*0.62,
               child: ListView.separated(
                 physics: const ClampingScrollPhysics(),
                 primary: false,

@@ -21,6 +21,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     const categories = Category.values;
     final articles = ArticleServices().articles;
     return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -50,14 +51,16 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 itemCount: categories.length,
               ),
             ),
-            ListView.separated(
-              primary: false,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return switchCategory(categorySelected, articles, index, context);
-              },
-              separatorBuilder: (context, _) => const SizedBox(height: 5),
-              itemCount: articles.length,
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.62,
+              child: ListView.separated(
+                physics: const ClampingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return switchCategory(categorySelected, articles, index, context);
+                },
+                separatorBuilder: (context, _) => const SizedBox(height: 5),
+                itemCount: articles.length,
+              ),
             ),
           ],
         ),

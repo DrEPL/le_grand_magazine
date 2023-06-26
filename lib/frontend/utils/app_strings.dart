@@ -6,5 +6,6 @@ abstract class AppStrings {
   static const discover = "Découvrez";
   static const allNews = "Des nouvelles du monde entier";
   static const saved = "Enregistrés";
+  static const search = "Rechercher";
   static const savedDescription = "Parcourez vos articles enregistrés";
 }
