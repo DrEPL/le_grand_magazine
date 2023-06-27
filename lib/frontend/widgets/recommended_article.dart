@@ -24,58 +24,64 @@ class RecommendedArticle extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
+  Widget build(BuildContext context){
+    Size screenSize = MediaQuery.of(context).size;
+    return GestureDetector(
     onTap: onTap,
     child: SizedBox(
-      width: MediaQuery.of(context).size.width,
       height: 150,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width < 400 ? 130 : 150,
-              height: MediaQuery.of(context).size.width < 400 ? 130 : 150,
+              width: screenSize.width < 380 ? 130 : 150,
+              height: screenSize.width < 380 ? 130 : 150,
               child: Image.asset(imageUrl, fit: BoxFit.cover),
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: 210,
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
-                  maxLines: 3,
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
+          SizedBox(
+            width: screenSize.width*0.5,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
+                const SizedBox(height: 8),
+                Flexible(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: (screenSize.width < 380) ? 15 :18,),
+                    maxLines: 3,
+                    softWrap: true,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 220,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      _displayPublicationDate(),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
-                    ),
-                    IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
-                  ],
+                SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        _displayPublicationDate(),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
+                      ),
+                      IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
     ),
   );
+}
 
   String _displayPublicationDate() {
     DateTime now = DateTime.now();

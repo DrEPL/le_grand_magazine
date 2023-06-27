@@ -3,7 +3,6 @@ import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/pages/home_page.dart';
 import 'package:le_grand_magazine/frontend/pages/saved_article_page.dart';
 import 'package:le_grand_magazine/frontend/pages/search_bar_page.dart';
-import 'package:searchbar_animation/searchbar_animation.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

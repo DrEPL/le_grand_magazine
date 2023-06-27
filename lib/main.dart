@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.red, visualDensity: VisualDensity.adaptivePlatformDensity),
       debugShowCheckedModeBanner: false,
       home:  AnimatedSplashScreen(
-        duration: 3000,
+        // duration: 3000,
+        duration: 1000,
         splash: Image.asset("assets/images/logo.png", width: screenSize.width, height: screenSize.height),
         nextScreen: const MainPage(),
         splashTransition: SplashTransition.fadeTransition,

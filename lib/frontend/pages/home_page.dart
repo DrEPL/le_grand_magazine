@@ -19,6 +19,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final articles = ArticleServices().articles;
 
+  final gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2);
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,21 +40,22 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: SizedBox(width: 100,child: RecommendedArticle(
-                  title: articles[index].title,
-                  category: articles[index].category.displayName(),
-                  imageUrl: articles[index].image,
-                  publicationDate: articles[index].publicationDate,
-                  icon: articles[index].isSaved ? Icons.bookmark : Icons.bookmark_outline,
-                  iconColor: articles[index].isSaved ? Colors.red : Colors.grey,
-                  onIconPressed: () {},
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
-                )),
+                child: 
+                  RecommendedArticle(
+                    title: articles[index].title,
+                    category: articles[index].category.displayName(),
+                    imageUrl: articles[index].image,
+                    publicationDate: articles[index].publicationDate,
+                    icon: articles[index].isSaved ? Icons.bookmark : Icons.bookmark_outline,
+                    iconColor: articles[index].isSaved ? Colors.red : Colors.grey,
+                    onIconPressed: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
+                  ),
               );
             },
             separatorBuilder: (context, _) => const SizedBox(height: 5),
             itemCount: articles.length,
-          ),
+          )
         ],
       ),
     );

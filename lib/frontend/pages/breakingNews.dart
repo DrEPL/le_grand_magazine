@@ -25,7 +25,7 @@ class _BreakingNewsState extends State<BreakingNews> {
                 mainAxisSpacing: 10);
   @override
   Widget build(BuildContext context) {
-return Scaffold(
+  return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.breakingNews, style: TextStyle(color: Colors.black, fontSize: 24)),
         backgroundColor: Colors.white,
