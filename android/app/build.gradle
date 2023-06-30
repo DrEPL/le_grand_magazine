@@ -29,6 +29,10 @@ android {
     namespace "com.le_grand_magazine.le_grand_magazine"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    
+    tasks.withType(JavaCompile) {
+        options.incremental = false
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
