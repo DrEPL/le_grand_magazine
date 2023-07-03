@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         nextScreen: const MainPage(),
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.fade,
-        backgroundColor: const Color.fromARGB(255, 226,00,26)),
+        backgroundColor: const Color.fromARGB(255, 226, 00, 26)),
     );
   }
 }

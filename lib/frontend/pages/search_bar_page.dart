@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:le_grand_magazine/backend/models/article.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../backend/services/article_services.dart';
 import '../widgets/components/buildCategory.dart';
 import '../widgets/components/buildImage.dart';
@@ -15,6 +16,7 @@ class SearcheBarPage extends StatefulWidget {
 
 class _SearcheBarPageState extends State<SearcheBarPage> {
   final articles = ArticleServices().articles;
+  List<Article> filteredArticles = [];
   final gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 400,
       childAspectRatio: 3 / 2,
@@ -29,6 +31,7 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
     _searchController.clear();
     setState(() {
       _showClearButton = _searchController.text.isNotEmpty;
+      // filteredArticles.clear();
     });
   }
 
@@ -43,6 +46,12 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
   void _checkShowClearButton() {
     setState(() {
       _showClearButton = _searchController.text.isNotEmpty;
+    final searchValue = _searchController.text.toLowerCase();
+    filteredArticles = articles.where((article) {
+      final title = article.title.toLowerCase();
+      final searchWords = searchValue.split(' ');
+      return searchWords.every((word) => title.contains(word));
+    }).toList();
     });
   }
 
@@ -83,26 +92,46 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
       ),
       body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
+          child: filteredArticles.isNotEmpty ?
+          GridView.builder(
             gridDelegate: gridDelegate,
-            itemCount: articles.length,
+            itemCount: filteredArticles.isNotEmpty ? filteredArticles.length : articles.length,
             itemBuilder: (context, index) {
+              final article = filteredArticles.isNotEmpty ? filteredArticles : articles;
               return GestureDetector(
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            ArticleDetailPage(article: articles[index]))),
+                            ArticleDetailPage(article: article[index]))),
                 child: Stack(
                   children: [
-                    buildImage(index, articles),
-                    buildCategory(index, context, articles),
-                    buildTimeAndTitle(context, index, articles)
+                    buildImage(index, article),
+                    buildCategory(index, context, article),
+                    buildTimeAndTitle(context, index, article)
                   ],
                 ),
               );
             },
-          )),
+          )
+          : 
+          Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/search_not_found.png', // Chemin vers votre fichier SVG
+                    width: MediaQuery.of(context).size.width*0.8,
+                    height: MediaQuery.of(context).size.width*0.8,
+                  ),
+                  const Text(
+                    'Aucun résultat trouvé',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+          ),
     );
   }
 }
