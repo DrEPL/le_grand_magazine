@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 import '../../backend/services/article_services.dart';

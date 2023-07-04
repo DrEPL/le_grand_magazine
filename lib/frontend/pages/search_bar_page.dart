@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../backend/services/article_services.dart';
 import '../widgets/components/buildCategory.dart';
 import '../widgets/components/buildImage.dart';

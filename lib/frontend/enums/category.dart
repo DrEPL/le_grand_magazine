@@ -1,12 +1,10 @@
-enum Category { Toutes, Afrique, Politique, Economie, Societe, Sport, Culture, Agenda, Science }
+enum Category { Afrique, Politique, Economie, Societe, Sport, Culture, Agenda, Science }
 
 extension CategoryExtension on Category {
   String displayName(){
     String category =  toString().split(".").last;
 
     switch(category)  {
-      case "Toutes":
-        return "Toutes";
       case "Afrique":
         return "Afrique";
       case "Politique":
