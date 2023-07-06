@@ -27,7 +27,9 @@ class _MainPageState extends State<MainPage> {
           actions: [
             IconButton(onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const SearcheBarPage()));
-            }, icon: const Icon(Icons.search, color: Color.fromARGB(255, 112, 112, 112))),
+            },
+            icon: const Icon(Icons.search, color: Color.fromARGB(255, 112, 112, 112))
+            ),
             IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined, color: Color.fromARGB(255, 112, 112, 112)))
           ],
         ),

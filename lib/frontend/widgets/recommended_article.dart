@@ -29,55 +29,62 @@ class RecommendedArticle extends StatelessWidget {
     return GestureDetector(
     onTap: onTap,
     child: SizedBox(
-      height: 150,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              width: screenSize.width < 380 ? 130 : 150,
-              height: screenSize.width < 380 ? 130 : 150,
-              child: Image.asset(imageUrl, fit: BoxFit.cover),
+      height: 180,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ClipRRect(
+              // borderRadius: BorderRadius.circular(8),
+              // clipBehavior: Clip.antiAlias,
+              child: SizedBox(
+                width: screenSize.width < 380 ? 130 : 150,
+                height: screenSize.width < 380 ? 180 : 200,
+                child: Image.asset(imageUrl, fit: BoxFit.cover),
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          SizedBox(
-            width: screenSize.width*0.5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
-                const SizedBox(height: 8),
-                Flexible(
-                  child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: (screenSize.width < 380) ? 15 :18,),
-                    maxLines: 3,
-                    softWrap: true,
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
+            const SizedBox(width: 10),
+            SizedBox(
+              width: screenSize.width*0.5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const SizedBox(height: 8),
+                  Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: (screenSize.width < 380) ? 15 :18,),
+                      maxLines: 5,
+                      softWrap: true,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        _displayPublicationDate(),
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
-                      ),
-                      IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
-                    ],
+                  SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _displayPublicationDate(),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
+                        ),
+                        IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
