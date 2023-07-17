@@ -3,7 +3,6 @@ import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
-import '../widgets/SwitchCategory.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -56,7 +55,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               child: ListView.separated(
                 physics: const ClampingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return switchCategory(categorySelected, articles, index, context);
+                  // return switchCategory(categorySelected, articles, index, context);
                 },
                 separatorBuilder: (context, _) => const SizedBox(height: 5),
                 itemCount: articles.length,

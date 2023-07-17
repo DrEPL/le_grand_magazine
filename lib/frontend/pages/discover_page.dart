@@ -147,12 +147,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                       category: article.category.displayName(),
                                       imageUrl: article.image,
                                       publicationDate: article.publicationDate,
-                                      icon: article.isSaved
-                                          ? Icons.bookmark
-                                          : Icons.bookmark_outline,
-                                      iconColor: article.isSaved
-                                          ? Colors.red
-                                          : Colors.grey,
                                       onIconPressed: () {},
                                       onTap: () => Navigator.push(
                                           context,

@@ -22,7 +22,7 @@ class ArticleServices {
       section: 'Jeux',
       source: 'Adiac',
       publicationDate: DateTime(2023, 6, 1, 10, 7),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_2.png',
@@ -42,7 +42,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'Jeux',
       publicationDate: DateTime(2023, 5, 24, 15, 11),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_3.png',
@@ -57,7 +57,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 15),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_4.png',
@@ -73,7 +73,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 23),
-      isSaved: false,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -95,7 +95,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -117,7 +117,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_1.png',
@@ -138,7 +138,7 @@ class ArticleServices {
       section: 'Jeux',
       source: 'Adiac',
       publicationDate: DateTime(2023, 6, 1, 10, 7),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_2.png',
@@ -158,7 +158,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'Jeux',
       publicationDate: DateTime(2023, 5, 24, 15, 11),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_3.png',
@@ -173,7 +173,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 15),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_4.png',
@@ -189,7 +189,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 23),
-      isSaved: false,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -211,7 +211,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -233,7 +233,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_1.png',
@@ -254,7 +254,7 @@ class ArticleServices {
       section: 'Jeux',
       source: 'Adiac',
       publicationDate: DateTime(2023, 6, 1, 10, 7),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_2.png',
@@ -274,7 +274,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'Jeux',
       publicationDate: DateTime(2023, 5, 24, 15, 11),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_3.png',
@@ -289,7 +289,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 15),
-      isSaved: true,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_4.png',
@@ -305,7 +305,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 23),
-      isSaved: false,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -327,7 +327,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: true,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -349,7 +349,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: true,
     ),
     Article(
       image: 'assets/images/article_1.png',
@@ -370,7 +370,7 @@ class ArticleServices {
       section: 'Jeux',
       source: 'Adiac',
       publicationDate: DateTime(2023, 6, 1, 10, 7),
-      isSaved: true,
+      isBreakingNews: true,
     ),
     Article(
       image: 'assets/images/article_2.png',
@@ -390,7 +390,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'Jeux',
       publicationDate: DateTime(2023, 5, 24, 15, 11),
-      isSaved: true,
+      isBreakingNews: true,
     ),
     Article(
       image: 'assets/images/article_3.png',
@@ -405,7 +405,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 15),
-      isSaved: true,
+      isBreakingNews: true,
     ),
     Article(
       image: 'assets/images/article_4.png',
@@ -421,7 +421,7 @@ class ArticleServices {
       source: 'Adiac',
       section: 'journal',
       publicationDate: DateTime(2023, 5, 24, 15, 23),
-      isSaved: false,
+      isBreakingNews: false,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -443,7 +443,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: true,
     ),
     Article(
       image: 'assets/images/article_5.png',
@@ -465,7 +465,7 @@ class ArticleServices {
       source: 'We are Tech',
       section: 'Divers',
       publicationDate: DateTime(2023, 5, 31, 08, 40),
-      isSaved: true,
+      isBreakingNews: true,
     ),
   ];
 

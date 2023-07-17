@@ -6,7 +6,7 @@ class Article {
   final String section;
   final Category category;
   final DateTime publicationDate;
-  final bool isSaved;
+  final bool isBreakingNews;
 
   Article({
     required this.title,
@@ -18,6 +18,6 @@ class Article {
     required this.section,
     required this.source,
     required this.publicationDate,
-    required this.isSaved,
+    required this.isBreakingNews,
   });
 }

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/backend/models/article.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,13 +20,21 @@ class _CarouselState extends State<Carousel> {
   int activeIndex = 0;
 
   final articles = ArticleServices().articles;
+  List<Article> breakingNews = [];
 
   @override
   Widget build(BuildContext context) {
+    // Trier les BreakinkNews des articles
+    breakingNews = [];
+    for (final article in articles) {
+      if (article.isBreakingNews) {
+        breakingNews.add(article);
+      }
+    }
     return Column(
       children: [
         CarouselSlider.builder(
-          itemCount: articles.length,
+          itemCount: breakingNews.length,
           options: CarouselOptions(
             autoPlay: true,
             height: 280,
@@ -36,9 +45,17 @@ class _CarouselState extends State<Carousel> {
           ),
           itemBuilder: (context, index, _) {
             return GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ArticleDetailPage(article: breakingNews[index]))),
               child: Stack(
-                children: [buildImage(index, articles), buildCategory(index, context, articles), buildTimeAndTitle(context, index, articles)],
+                children: [
+                  buildImage(index, breakingNews),
+                  buildCategory(index, context, breakingNews),
+                  buildTimeAndTitle(context, index, breakingNews)
+                ],
               ),
             );
           },
@@ -46,8 +63,11 @@ class _CarouselState extends State<Carousel> {
         const SizedBox(height: 25),
         AnimatedSmoothIndicator(
           activeIndex: activeIndex,
-          count: articles.length,
-          effect: ExpandingDotsEffect(activeDotColor: Theme.of(context).primaryColor, dotHeight: 5, dotWidth: 5),
+          count: breakingNews.length,
+          effect: ExpandingDotsEffect(
+              activeDotColor: Theme.of(context).primaryColor,
+              dotHeight: 5,
+              dotWidth: 5),
         ),
       ],
     );

@@ -5,10 +5,6 @@ class RecommendedArticle extends StatelessWidget {
 
   final DateTime publicationDate;
 
-  final IconData icon;
-
-  final Color iconColor;
-
   final Function()? onIconPressed, onTap;
 
   const RecommendedArticle({
@@ -17,8 +13,6 @@ class RecommendedArticle extends StatelessWidget {
     required this.category,
     required this.title,
     required this.publicationDate,
-    required this.icon,
-    required this.iconColor,
     required this.onIconPressed,
     required this.onTap,
   });
@@ -55,7 +49,7 @@ class RecommendedArticle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const SizedBox(height: 8),
+                  // const SizedBox(height: 2),
                   Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
                   Flexible(
                     child: Text(
@@ -75,8 +69,7 @@ class RecommendedArticle extends StatelessWidget {
                         Text(
                           _displayPublicationDate(),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
-                        ),
-                        IconButton(onPressed: onIconPressed, icon: Icon(icon, size: 20, color: iconColor))
+                        )
                       ],
                     ),
                   ),

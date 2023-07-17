@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
+import 'package:le_grand_magazine/frontend/enums/category.dart';
+import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 import '../../backend/services/article_services.dart';
 import '../widgets/components/buildCategory.dart';
 import '../widgets/components/buildImage.dart';
@@ -18,7 +20,7 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
   List<Article> filteredArticles = [];
   final gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 400,
-      childAspectRatio: 3 / 2,
+      childAspectRatio: 4 / 2,
       crossAxisSpacing: 10,
       mainAxisSpacing: 10);
 
@@ -97,20 +99,15 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
             itemCount: filteredArticles.isNotEmpty ? filteredArticles.length : articles.length,
             itemBuilder: (context, index) {
               final article = filteredArticles.isNotEmpty ? filteredArticles : articles;
-              return GestureDetector(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            ArticleDetailPage(article: article[index]))),
-                child: Stack(
-                  children: [
-                    buildImage(index, article),
-                    buildCategory(index, context, article),
-                    buildTimeAndTitle(context, index, article)
-                  ],
-                ),
-              );
+              return 
+              RecommendedArticle(
+                    title: article[index].title,
+                    category: article[index].category.displayName(),
+                    imageUrl: article[index].image,
+                    publicationDate: article[index].publicationDate,
+                    onIconPressed: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: article[index]))),
+                  );
             },
           )
           : 

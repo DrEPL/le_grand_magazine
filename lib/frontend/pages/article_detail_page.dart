@@ -46,15 +46,15 @@ class ArticleDetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new, size: 25, color: Colors.white)),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(article.isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 25, color: article.isSaved ? Colors.red : Colors.white),
-                        ),
-                        IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.more_horiz, size: 25, color: Colors.white)),
-                      ],
-                    )
+                    // Row(
+                    //   children: [
+                    //     IconButton(
+                    //       onPressed: () => Navigator.pop(context),
+                    //       icon: Icon(article.isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 25, color: article.isSaved ? Colors.red : Colors.white),
+                    //     ),
+                    //     IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.more_horiz, size: 25, color: Colors.white)),
+                    //   ],
+                    // )
                   ],
                 ),
               ),
@@ -152,15 +152,15 @@ class ArticleDetailPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new, size: 25, color: Colors.white)),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(article.isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 25, color: article.isSaved ? Colors.red : Colors.white),
-                  ),
-                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.more_horiz, size: 25, color: Colors.white)),
-                ],
-              )
+              // Row(
+              //   children: [
+              //     IconButton(
+              //       onPressed: () => Navigator.pop(context),
+              //       icon: Icon(article.isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 25, color: article.isSaved ? Colors.red : Colors.white),
+              //     ),
+              //     IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.more_horiz, size: 25, color: Colors.white)),
+              //   ],
+              // )
             ],
           ),
         ),

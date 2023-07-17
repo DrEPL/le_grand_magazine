@@ -5,7 +5,8 @@ abstract class AppStrings {
   static const seeMore = "Voir plus";
   static const discover = "Découvrez";
   static const allNews = "Des nouvelles du monde entier";
-  static const saved = "Enregistrés";
+  static const saved = "Editions";
+  static const videos = "Vidéos";
   static const search = "Rechercher";
-  static const savedDescription = "Parcourez vos articles enregistrés";
+  static const savedDescription = "Téléchargez toutes les éditions du Grand Magazine";
 }

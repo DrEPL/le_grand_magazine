@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/backend/models/article.dart';
 
 import '../../backend/services/article_services.dart';
 import '../utils/app_strings.dart';
@@ -15,14 +16,22 @@ class BreakingNews extends StatefulWidget {
 }
 
 class _BreakingNewsState extends State<BreakingNews> {
-    final articles = ArticleServices().articles;
-    final gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 400,
-                childAspectRatio: 3/2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10);
+  final articles = ArticleServices().articles;
+  List<Article> breakingNews = [];
+  final gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 400,
+              childAspectRatio: 3/2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10);
   @override
   Widget build(BuildContext context) {
+  // Trier les BreakinkNews des articles
+  breakingNews = [];
+  for (final article in articles) {
+    if (article.isBreakingNews) {
+      breakingNews.add(article);
+    }
+  }
   return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.breakingNews, style: TextStyle(color: Colors.black, fontSize: 24)),
@@ -34,12 +43,12 @@ class _BreakingNewsState extends State<BreakingNews> {
         padding: const EdgeInsets.all(8.0),
         child: 
         GridView.builder(gridDelegate: gridDelegate,
-            itemCount: articles.length,
+            itemCount: breakingNews.length,
             itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: articles[index]))),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ArticleDetailPage(article: breakingNews[index]))),
               child: Stack(
-                children: [buildImage(index, articles), buildCategory(index, context, articles), buildTimeAndTitle(context, index, articles)],
+                children: [buildImage(index, breakingNews), buildCategory(index, context, breakingNews), buildTimeAndTitle(context, index, breakingNews)],
               ),
             );
           },)
