@@ -18,80 +18,104 @@ class RecommendedArticle extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return GestureDetector(
-    onTap: onTap,
-    child: SizedBox(
-      height: 180,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        elevation: 10,
-        shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0)),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ClipRRect(
-              // borderRadius: BorderRadius.circular(8),
-              // clipBehavior: Clip.antiAlias,
-              child: SizedBox(
-                width: screenSize.width < 380 ? 130 : 150,
-                height: screenSize.width < 380 ? 180 : 200,
-                child: Image.asset(imageUrl, fit: BoxFit.cover),
+      onTap: onTap,
+      child: SizedBox(
+        height: 180,
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ClipRRect(
+                // borderRadius: BorderRadius.circular(8),
+                // clipBehavior: Clip.antiAlias,
+                child: SizedBox(
+                  width: screenSize.width < 380 ? 130 : 150,
+                  height: screenSize.width < 380 ? 180 : 200,
+                  child: Image.network(imageUrl, fit: BoxFit.cover),
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            SizedBox(
-              width: screenSize.width*0.5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // const SizedBox(height: 2),
-                  Text(category, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
-                  Flexible(
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, fontSize: (screenSize.width < 380) ? 15 :18,),
-                      maxLines: 5,
-                      softWrap: true,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
+              const SizedBox(width: 10),
+              SizedBox(
+                width: screenSize.width * 0.5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // const SizedBox(height: 2),
+                    Text(category,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.red, fontWeight: FontWeight.w500)),
+                    Flexible(
+                      child: Text(
+                        title,
+                        style:
+                            Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: (screenSize.width < 380) ? 15 : 18,
+                                ),
+                        maxLines: 5,
+                        softWrap: true,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          _displayPublicationDate(),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey, fontWeight: FontWeight.w500),
-                        )
-                      ],
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            _displayPublicationDate(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   String _displayPublicationDate() {
     DateTime now = DateTime.now();
     if (publicationDate.day == now.day) {
-      return "Aujourd'hui";
+      final difference = now.difference(publicationDate);
+      if (difference.inSeconds < 60) {
+        return "Il y'a ${difference.inSeconds} secondes";
+      } else {
+        if (difference.inMinutes < 60) {
+          return "Il y'a ${difference.inMinutes} minutes";
+        } else {
+          if (difference.inHours == 1) {
+            return "Il y'a ${difference.inHours} heure";
+          } else {
+            return "Il y'a ${difference.inHours} heures";
+          }
+        }
+      }
     }
 
-    if (publicationDate.year != now.year) {
-      return "L'an dernier";
-    }
+    // if (publicationDate.year != now.year) {
+    //   return "L'an dernier";
+    // }
     return "${publicationDate.day} ${monthInLetter(publicationDate.month)} ${publicationDate.year}";
   }
 

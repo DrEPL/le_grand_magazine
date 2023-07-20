@@ -7,7 +7,7 @@ Widget buildImage(int index, List<Article> articles) => ClipRRect(
   child: Container(
     height: 280,
     width: 2000,
-    decoration: BoxDecoration(image: DecorationImage(image: AssetImage(articles[index].image), fit: BoxFit.cover)),
+    decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(articles[index].image), fit: BoxFit.cover)),
     child: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

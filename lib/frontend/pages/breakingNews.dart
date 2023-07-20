@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
+import 'package:provider/provider.dart';
 
 import '../../backend/services/article_services.dart';
 import '../utils/app_strings.dart';
@@ -16,15 +17,17 @@ class BreakingNews extends StatefulWidget {
 }
 
 class _BreakingNewsState extends State<BreakingNews> {
-  final articles = ArticleServices().articles;
   List<Article> breakingNews = [];
   final gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 400,
               childAspectRatio: 3/2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10);
+              
   @override
   Widget build(BuildContext context) {
+  final articleProvider = Provider.of<ArticleListProvider>(context);
+  final articles = articleProvider.listOfArticle;
   // Trier les BreakinkNews des articles
   breakingNews = [];
   for (final article in articles) {

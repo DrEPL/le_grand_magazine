@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
-import 'package:le_grand_magazine/backend/services/video_services.dart';
-import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
+import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/carousel.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 import 'package:le_grand_magazine/frontend/widgets/section_text.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import 'breakingNews.dart';
@@ -21,10 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final articles = ArticleServices().articles;
   late VideoPlayerController _videoController;
   // final videos = VideoServices().videos;
-    final List<String> videoUrls = [
+  final List<String> videoUrls = [
     'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
@@ -53,6 +52,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+  final articleProvider = Provider.of<ArticleListProvider>(context);
+  final articles = articleProvider.listOfArticle;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -96,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                   );
                   }
               )),
-          SectionText(text: AppStrings.recommendation, onSeeMorePressed: () {}),
+          SectionText(text: AppStrings.recommendation, onSeeMorePressed: () {
+            const DiscoverPage();
+          }),
           ListView.separated(
             primary: false,
             shrinkWrap: true,
@@ -105,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(10.0),
                 child: RecommendedArticle(
                   title: articles[index].title,
-                  category: articles[index].category.displayName(),
+                  category: articles[index].category.name,
                   imageUrl: articles[index].image,
                   publicationDate: articles[index].publicationDate,
                   onIconPressed: () {},

@@ -1,15 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
-import 'package:le_grand_magazine/frontend/enums/category.dart';
+import 'package:le_grand_magazine/backend/services/category_services.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
+import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-// import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
-// import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 import '../../backend/models/article.dart';
-// import '../widgets/SwitchCategory.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -23,12 +23,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
   dynamic categorySelected = "Afrique";
   final AutoScrollController _scrollController = AutoScrollController();
   int _visibleItemCount = 3; // Nombre initial d'éléments à afficher
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   void _scrollToSection(int index) {
     _scrollController.scrollToIndex(
@@ -46,9 +40,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   @override
   Widget build(BuildContext context) {
-    const categories = Category.values;
-    final articles = ArticleServices().articles;
-
+    final categoryProvider = Provider.of<CategoryListProvider>(context);
+    final categories = categoryProvider.listOfCategory;
+    final articleProvider = Provider.of<ArticleListProvider>(context);
+    final articles = articleProvider.listOfArticle;
     // Organiser les articles par section
     final Map<String, List<Article>> articlesBySection = {};
     for (final article in articles) {
@@ -70,15 +65,17 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   color: Colors.black,
                   fontSize: 40)),
           Text(AppStrings.allNews,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w400, color: Colors.black)),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.w400, color: Colors.black)),
           SizedBox(
             height: 80,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return CategoryChip(
-                    label: categories[index].displayName(),
+                    label: categories[index].name,
                     labelColor: _currentCategoryIndex == index
                         ? Colors.white
                         : Colors.red,
@@ -88,7 +85,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     onTap: () {
                       setState(() {
                         _currentCategoryIndex = index;
-                        categorySelected = categories[index].displayName();
+                        categorySelected = categories[index].name;
                       });
                       _scrollToSection(index);
                     });
@@ -111,10 +108,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
                   final category = categories[index];
-                  final sectionArticles =
-                      articlesBySection[category.displayName()];
+                  final sectionArticles = articlesBySection[category.name];
                   int sectionArticleLength = sectionArticles?.length ?? 0;
-                        
+
                   return AutoScrollTag(
                     controller: _scrollController,
                     index: index,
@@ -122,15 +118,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        (sectionArticleLength != 0) ?
-                        Text(
-                          category.displayName(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ):
-                        const SizedBox.shrink(),
+                        (sectionArticleLength != 0)
+                            ? Text(
+                                category.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              )
+                            : const SizedBox.shrink(),
                         const SizedBox(height: 8),
                         ListView.builder(
                           shrinkWrap: true,
@@ -141,10 +137,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             // Affichez les articles ici
                             return articleIndex < _visibleItemCount
                                 ? Padding(
-                                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, bottom: 8.0),
                                     child: RecommendedArticle(
                                       title: article.title,
-                                      category: article.category.displayName(),
+                                      category: article.category.name,
                                       imageUrl: article.image,
                                       publicationDate: article.publicationDate,
                                       onIconPressed: () {},

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
-import 'package:le_grand_magazine/frontend/enums/category.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 
 class ArticleDetailPage extends StatelessWidget {
@@ -23,7 +22,7 @@ class ArticleDetailPage extends StatelessWidget {
               child: Container(
                 height: 350,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(article.image), fit: BoxFit.cover)),
+                decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(article.image), fit: BoxFit.cover)),
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -69,7 +68,7 @@ class ArticleDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CategoryChip(label: article.category.displayName(), labelColor: Colors.white, backgroundColor: Colors.red, onTap: (){},),
+                      CategoryChip(label: article.category.name, labelColor: Colors.white, backgroundColor: Colors.red, onTap: (){},),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -130,7 +129,7 @@ class ArticleDetailPage extends StatelessWidget {
           child: Container(
             height: 400,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(image: DecorationImage(image: AssetImage(article.image), fit: BoxFit.cover)),
+            decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(article.image), fit: BoxFit.cover)),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -174,7 +173,7 @@ class ArticleDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryChip(label: article.category.displayName(), labelColor: Colors.white, backgroundColor: Colors.red, onTap: () {},),
+                  CategoryChip(label: article.category.name, labelColor: Colors.white, backgroundColor: Colors.red, onTap: () {},),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -202,18 +201,18 @@ class ArticleDetailPage extends StatelessWidget {
   }
 
   String displayTime({required Duration time}) {
-    if (time.inSeconds < 60) {
-      return "Il y a ${time.inSeconds} secondes";
-    }
-
-    if (time.inMinutes < 60) {
-      return "Il y a ${time.inMinutes} minutes";
-    }
-
-    if (time.inMinutes >= 60) {
-      return "Plutôt dans la journée";
-    }
-
-    return "";
+      if (time.inSeconds < 60) {
+        return "Il y'a ${time.inSeconds} secondes";
+      } else {
+        if (time.inMinutes < 60) {
+          return "Il y'a ${time.inMinutes} minutes";
+        } else {
+          if (time.inHours == 1) {
+            return "Il y'a ${time.inHours} heure";
+          } else {
+            return "Il y'a ${time.inHours} heures";
+          }
+        }
+      }
   }
 }
