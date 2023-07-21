@@ -1,40 +1,40 @@
 import 'dart:convert';
 
 class Video {
-  final String title;
-  final String? thumbnail;
-  final String url;
+  final String? title;
+  final String video_link;
+  final DateTime created_at;
   Video({
-    required this.title,
-    this.thumbnail,
-    required this.url,
+    this.title,
+    required this.video_link,
+    required this.created_at,
   });
 
   Video copyWith({
     String? title,
-    String? thumbnail,
-    String? url,
+    String? video_link,
+    DateTime? created_at,
   }) {
     return Video(
       title: title ?? this.title,
-      thumbnail: thumbnail ?? this.thumbnail,
-      url: url ?? this.url,
+      video_link: video_link ?? this.video_link,
+      created_at: created_at ?? this.created_at,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'title': title,
-      'thumbnail': thumbnail,
-      'url': url,
+      'video_link': video_link,
+      'created_at': created_at.millisecondsSinceEpoch,
     };
   }
 
   factory Video.fromMap(Map<String, dynamic> map) {
     return Video(
-      title: map['title'] ?? '',
-      thumbnail: map['thumbnail'],
-      url: map['url'] ?? '',
+      title: map['title'],
+      video_link: map['video_link'] ?? '',
+      created_at: DateTime.parse(map['created_at']),
     );
   }
 
@@ -43,7 +43,7 @@ class Video {
   factory Video.fromJson(String source) => Video.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Video(title: $title, thumbnail: $thumbnail, url: $url)';
+  String toString() => 'Video(title: $title, video_link: $video_link, created_at: $created_at)';
 
   @override
   bool operator ==(Object other) {
@@ -51,10 +51,10 @@ class Video {
   
     return other is Video &&
       other.title == title &&
-      other.thumbnail == thumbnail &&
-      other.url == url;
+      other.video_link == video_link &&
+      other.created_at == created_at;
   }
 
   @override
-  int get hashCode => title.hashCode ^ thumbnail.hashCode ^ url.hashCode;
+  int get hashCode => title.hashCode ^ video_link.hashCode ^ created_at.hashCode;
 }

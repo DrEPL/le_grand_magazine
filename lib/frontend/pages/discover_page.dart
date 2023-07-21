@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/backend/services/category_services.dart';

@@ -1,7 +1,9 @@
 // ignore_for_file: deprecated_member_use
-
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/backend/models/video.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
+import 'package:le_grand_magazine/backend/services/video_services.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
@@ -10,7 +12,6 @@ import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 import 'package:le_grand_magazine/frontend/widgets/section_text.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-
 import 'breakingNews.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,23 +22,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late VideoPlayerController _videoController;
-  // final videos = VideoServices().videos;
-  final List<String> videoUrls = [
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    // Ajoutez d'autres URLs de vidéos selon vos besoins
-  ];
+  List<Video> videoUrls = [];
+  List<VideoPlayerController> _controllers = [];
+  List<bool> _isPlaying = [];
+  Timer? _timer;
+  final Duration _refreshDuration = const Duration(
+      minutes: 4); // Temps d'attente avant chaque rafraîchissement
 
   @override
   void initState() {
     super.initState();
-    _videoController = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    )..initialize().then((_) {
-        setState(() {});
+    _initializeVideoPlayers();
+    _timer = Timer.periodic(_refreshDuration, (_) {
+      _resetVideoPlayers();
+      debugPrint("Fetch de l'image après $_refreshDuration minutes.");
+    });
+  }
+
+  void _initializeVideoPlayers() async {
+    final videoProvider =
+        Provider.of<VideoListProvider>(context, listen: false);
+    videoUrls = await videoProvider.listOfVideos();
+
+    for (final video in videoUrls) {
+      final controller = VideoPlayerController.network(video.video_link);
+      await controller.initialize();
+      setState(() {
+        _controllers.add(controller);
+        // Défaut : la vidéo n'est pas en cours de lecture
+        _isPlaying.add(false);
       });
+    }
   }
 
   final gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,15 +60,44 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // Libérez les ressources des contrôleurs vidéo
-    _videoController.dispose();
+    _timer?.cancel();
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
     super.dispose();
+  }
+
+  void _playPauseVideo(int index) {
+    setState(() {
+      for (var i = 0; i < _controllers.length; i++) {
+        if (i != index) {
+          _controllers[i].pause();
+          _isPlaying[i] = false;
+        }
+      }
+
+      if (_isPlaying[index]) {
+        _controllers[index].pause();
+      } else {
+        _controllers[index].play();
+      }
+      _isPlaying[index] = !_isPlaying[index];
+    });
+  }
+
+  void _resetVideoPlayers() {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    _controllers.clear();
+    _isPlaying.clear();
+    _initializeVideoPlayers();
   }
 
   @override
   Widget build(BuildContext context) {
-  final articleProvider = Provider.of<ArticleListProvider>(context);
-  final articles = articleProvider.listOfArticle;
+    final articleProvider = Provider.of<ArticleListProvider>(context);
+    final articles = articleProvider.listOfArticle;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -65,41 +109,52 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
                             const BreakingNews()));
-              }),
+              }, displayTextButton: true,),
           const Carousel(),
-          SectionText(
-              text: AppStrings.videos,
-              onSeeMorePressed: () {}), // Ajout de la section "Videos"
-          SizedBox(
-              height:
-                  200, // Hauteur souhaitée de la liste horizontale de vidéos
-              child: ListView.builder(
+          videoUrls.isNotEmpty
+              ? SectionText(text: AppStrings.videos, onSeeMorePressed: () {}, displayTextButton: false,)
+              : const SizedBox.shrink(), // Ajout de la section "Videos"
+          StatefulBuilder(builder: (context, state) {
+            return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              itemCount: 1, // Remplacez par le nombre de vidéos que vous souhaitez afficher
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (_videoController.value.isPlaying) {
-                          _videoController.pause();
-                        } else {
-                          _videoController.play();
-                        }
-                      });
-                    },
-                      child: AspectRatio(
-                        aspectRatio: _videoController.value.aspectRatio,
-                        child: VideoPlayer(_videoController),
-                      ),
+              child: Row(
+                children: [
+                  for (var i = 0; i < _controllers.length; i++)
+                    Stack(
+                      children: [
+                        SizedBox(
+                          height: 200,
+                          width: 320,
+                          child: Card(
+                            clipBehavior: Clip.hardEdge,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            child: AspectRatio(
+                              aspectRatio: _controllers[i].value.aspectRatio,
+                              child: VideoPlayer(_controllers[i]),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => _playPauseVideo(i),
+                          child: Container(
+                            color: Colors.transparent,
+                            height: 200,
+                            width: 320,
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                  }
-              )),
-          SectionText(text: AppStrings.recommendation, onSeeMorePressed: () {
-            const DiscoverPage();
+                ],
+              ),
+            );
           }),
+          SectionText(
+              text: AppStrings.recommendation,
+              onSeeMorePressed: () {
+                const DiscoverPage();
+              }, displayTextButton: false,),
           ListView.separated(
             primary: false,
             shrinkWrap: true,

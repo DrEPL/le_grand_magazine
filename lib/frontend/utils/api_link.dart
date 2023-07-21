@@ -1,4 +1,5 @@
-const String ipAdress                     = "http://127.0.0.1:8000/api";
+const String ipAdress                     = "http://192.168.100.93:8000/api";
 const String articlesLink                 = "$ipAdress/articles/";
 const String categoriesLink               = "$ipAdress/categories/";
 const String editionsLink                 = "$ipAdress/editions/";
+const String videosLink                   = "$ipAdress/videos/";

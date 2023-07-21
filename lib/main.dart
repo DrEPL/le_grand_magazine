@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/backend/services/category_services.dart';
+import 'package:le_grand_magazine/backend/services/edition_services.dart';
+import 'package:le_grand_magazine/backend/services/video_services.dart';
 import 'package:le_grand_magazine/frontend/pages/main_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ArticleListProvider()),
         ChangeNotifierProvider(create: (context) => CategoryListProvider()),
+        ChangeNotifierProvider(create: (context) => EditionListProvider()),
+        ChangeNotifierProvider(create: (context) => VideoListProvider()),
       ],
       child: MaterialApp(
         title: AppStrings.appName,

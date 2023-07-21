@@ -56,7 +56,7 @@ class Edition {
     return Edition(
       imageUrl: map['imageUrl'] ?? '',
       pdfUrl: map['pdfUrl'] ?? '',
-      dateEdition: DateTime.fromMillisecondsSinceEpoch(map['dateEdition']),
+      dateEdition: DateTime.parse(map['dateEdition']),
       title: map['title'],
       theme: map['theme'],
       numero: map['numero'] ?? '',

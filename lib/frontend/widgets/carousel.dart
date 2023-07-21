@@ -30,9 +30,7 @@ class _CarouselState extends State<Carousel> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Pendant l'attente des articles, affichez le CircularProgressIndicator
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return Container(height: 280, color: Colors.grey[100],);
         } else if (snapshot.hasError) {
           // Gérez les erreurs éventuelles
           return const Center(

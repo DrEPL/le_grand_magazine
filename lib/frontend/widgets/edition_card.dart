@@ -51,7 +51,7 @@ class _EditionCardState extends State<EditionCard> {
                 child: SizedBox(
                   width: screenSize.width,
                   height: 350,
-                  child: Image.asset(widget.imageUrl, fit: BoxFit.fill),
+                  child: Image.network(widget.imageUrl, fit: BoxFit.fill),
                 ),
               ),
               // const SizedBox(height: 8),

@@ -516,7 +516,7 @@ class ArticleListProvider extends ChangeNotifier {
     }
   }
 
-    Future<List<Article>> listOfArticles() async {
+  Future<List<Article>> listOfArticles() async {
     List<dynamic> articles = await getArticles();
     final listOfArticles = articles.map((article) => Article.fromMap(article)).toList();
     return listOfArticles;

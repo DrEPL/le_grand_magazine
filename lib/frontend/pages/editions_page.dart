@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/backend/models/edition.dart';
 import 'package:le_grand_magazine/backend/services/edition_services.dart';
 import 'package:le_grand_magazine/frontend/widgets/edition_card.dart';
+import 'package:provider/provider.dart';
 import '../utils/app_strings.dart';
 import '../widgets/category_chip.dart';
 
@@ -15,7 +17,7 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
   int _currentCategoryIndex = 0;
   dynamic yearSelected = "Toutes";
   List<String> years = [];
-  final editions = EditionService().editions;
+  // final editions = EditionService().editions;
 
   List<String> getYears() {
     final currentYear = DateTime.now().year;
@@ -40,6 +42,8 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
 
   @override
   Widget build(BuildContext context) {
+    final editionProvider = Provider.of<EditionListProvider>(context);
+    List<Edition> editions = editionProvider.listOfEdition;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(

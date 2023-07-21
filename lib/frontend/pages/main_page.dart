@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:le_grand_magazine/backend/models/article.dart';
-import 'package:le_grand_magazine/backend/models/category.dart';
 // import 'package:le_grand_magazine/backend/services/article_api.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
-import 'package:le_grand_magazine/backend/services/category_api.dart';
 import 'package:le_grand_magazine/backend/services/category_services.dart';
+import 'package:le_grand_magazine/backend/services/edition_services.dart';
+import 'package:le_grand_magazine/backend/services/video_services.dart';
 import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/pages/home_page.dart';
 import 'package:le_grand_magazine/frontend/pages/editions_page.dart';
@@ -40,13 +38,20 @@ class _MainPageState extends State<MainPage> {
         Provider.of<CategoryListProvider>(context, listen: false);
     final articleProvider =
         Provider.of<ArticleListProvider>(context, listen: false);
+    final editionProvider =
+        Provider.of<EditionListProvider>(context, listen: false);
+    final videoProvider =
+        Provider.of<VideoListProvider>(context, listen: false);
     categoryProvider.listCategories();
     articleProvider.listArticles();
+    videoProvider.listVideos();
+    editionProvider.listEditions();
     // Mettre en place le rafraîchissement périodique
     _timer = Timer.periodic(_refreshDuration, (_) {
       categoryProvider.listCategories();
       articleProvider.listArticles();
-      
+      editionProvider.listEditions();
+      videoProvider.listVideos();
       debugPrint("Fetch de l'api après $_refreshDuration seconde(s).");
     });
     requestPermission();
@@ -82,10 +87,10 @@ class _MainPageState extends State<MainPage> {
                 },
                 icon: const Icon(Icons.search,
                     color: Color.fromARGB(255, 112, 112, 112))),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_outlined,
-                    color: Color.fromARGB(255, 112, 112, 112)))
+            // IconButton(
+            //     onPressed: () {},
+            //     icon: const Icon(Icons.notifications_outlined,
+            //         color: Color.fromARGB(255, 112, 112, 112)))
           ],
         ),
         body: screens[currentPage],
