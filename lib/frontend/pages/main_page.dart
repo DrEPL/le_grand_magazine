@@ -59,11 +59,22 @@ class _MainPageState extends State<MainPage> {
   }
 
   requestPermission() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
+    // var status = await Permission.storage.status;
+    // if (!status.isGranted) {
+    //   await Permission.storage.request();
+    // }
+    // debugPrint(status.toString());
+    try {
+      var status = await Permission.storage.request();
+
+      if (status.isGranted) {
+        print('isGranted');
+      } else if (status.isPermanentlyDenied) {
+        openAppSettings();
+      }
+    } catch (e) {
+      print('~~error~~~>>>>>> $e');
     }
-    debugPrint(status.toString());
   }
 
   @override

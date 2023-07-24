@@ -1,6 +1,5 @@
-import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 class EditionCard extends StatefulWidget {
   final String imageUrl;
@@ -26,8 +25,6 @@ class EditionCard extends StatefulWidget {
 }
 
 class _EditionCardState extends State<EditionCard> {
-  double _progress = 0.0;
-  bool _isDownloading = false;
   int compteur = 0;
   @override
   Widget build(BuildContext context) {
@@ -131,7 +128,7 @@ class _EditionCardState extends State<EditionCard> {
                       ),
                       IconButton(
                           onPressed: () {
-                            startDownload();
+                            _showDownloadDialog(context);
                           },
                           icon: const Icon(
                             Icons.download,
@@ -148,70 +145,90 @@ class _EditionCardState extends State<EditionCard> {
     );
   }
 
-  Future<void> startDownload() async {
-    setState(() {
-      _isDownloading = true;
-      _progress = 0.0;
-    });
-
-    final File? file = await FileDownloader.downloadFile(
-      url: widget.pdfUrl,
-      name: "LGM ${widget.periode}",
-      onProgress: (String? fileName, double progress) {
-        setState(() {
-          _progress = progress;
-          compteur++;
-        });
-        if (compteur <= 1) {
-          showDialog(
-            context: context,
-            builder: (_) => _buildProgressIndicator(),
-          );
-        } else {
-          Navigator.pop(context);
-          showDialog(
-            context: context,
-            builder: (_) => _buildProgressIndicator(),
-          );
+  Future<void> downloadPDF(String url, String savePath,
+      {Function(double)? onProgress, Function(String)? onCompleted}) async {
+    final dio = Dio();
+    try {
+      await dio.download(url, savePath, onReceiveProgress: (received, total) {
+        if (total != -1 && onProgress != null) {
+          double progress = received / total;
+          onProgress(progress);
         }
-      },
-      onDownloadCompleted: (path) {
-        setState(() {
-          _isDownloading = false;
-          compteur = 0;
-        });
-      },
-    );
+      });
 
-    if (file != null) {
-      debugPrint('FILE: ${file.path}');
+      if (onCompleted != null) {
+        onCompleted(savePath);
+      }
+    } catch (e) {
+      debugPrint('Erreur de téléchargement: $e');
     }
   }
 
-  Widget _buildProgressIndicator() {
-    return AlertDialog(
-      title: _progress == 100
-          ? const Text('Téléchargement terminé')
-          : const Text('Téléchargement en cours'),
-      content: _progress == 100
-          ? const Text("consulter le dossier téléchargement")
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                LinearProgressIndicator(value: _progress),
-                const SizedBox(height: 16.0),
-                Text('$_progress %'),
-              ],
-            ),
-      actions: [
-        if (!_isDownloading && _progress == 100)
-          Center(
-              child: TextButton(
+  void _showDownloadDialog(BuildContext context) async {
+    String pdfUrl = widget.pdfUrl;
+    String name = "LGM_${widget.periode.replaceFirst(' ', '')}";
+    String savePath = '/storage/emulated/0/Download/$name.pdf';
+    double _progress = 0.0;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Téléchargement en cours'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LinearProgressIndicator(value: _progress),
+                  const SizedBox(height: 16.0),
+                  Text('${(_progress * 100).toStringAsFixed(2)}%'),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("Ok")))
-      ],
+                  child: const Center(child: Text('Annuler')),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    await downloadPDF(
+      pdfUrl,
+      savePath,
+      onProgress: (progress) {
+        setState(() {
+          _progress = progress;
+        });
+      },
+      onCompleted: (path) {
+        Navigator.pop(context); // Ferme la boîte de dialogue
+        showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: const Text('Téléchargement terminé'),
+              content: Text(
+                  'Le fichier a été téléchargé avec succès à l\'emplacement suivant:\nTéléchargement/$name.pdf'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Center(child: Text('OK')),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
