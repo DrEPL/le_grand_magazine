@@ -6,6 +6,7 @@ import 'package:le_grand_magazine/backend/services/category_services.dart';
 import 'package:le_grand_magazine/backend/services/edition_services.dart';
 import 'package:le_grand_magazine/backend/services/video_services.dart';
 import 'package:le_grand_magazine/frontend/pages/main_page.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -32,18 +33,21 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: AppStrings.appName,
         theme: ThemeData(
-            primarySwatch: Colors.red,
+            fontFamily: 'EuclidCircular',
+            primarySwatch: ColorThemes.primarySwatch,
             visualDensity: VisualDensity.adaptivePlatformDensity),
         debugShowCheckedModeBanner: false,
-        home: const MainPage(),
-        // AnimatedSplashScreen(
-        //   // duration: 3000,
-        //   duration: 1000,
-        //   splash: Image.asset("assets/images/logo.png", width: screenSize.width, height: screenSize.height),
-        //   nextScreen: const MainPage(),
-        //   splashTransition: SplashTransition.fadeTransition,
-        //   pageTransitionType: PageTransitionType.fade,
-        //   backgroundColor: const Color.fromARGB(255, 226, 00, 26)),
+        home: 
+        // const MainPage(),
+        SafeArea(
+          child: AnimatedSplashScreen(
+            duration: 1000,
+            splash: Image.asset("assets/images/logo.png", width: screenSize.width, height: screenSize.height),
+            nextScreen: const MainPage(),
+            splashTransition: SplashTransition.fadeTransition,
+            pageTransitionType: PageTransitionType.fade,
+            backgroundColor: ColorThemes.primarySwatch,),
+        )
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 
 class ArticleDetailPage extends StatelessWidget {
@@ -9,9 +10,8 @@ class ArticleDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final time = DateTime.now().difference(article.publicationDate);
     return Scaffold(
-      body:  SizedBox(
+      body: SizedBox(
         width: double.maxFinite,
         height: double.maxFinite,
         child: Stack(
@@ -22,7 +22,9 @@ class ArticleDetailPage extends StatelessWidget {
               child: Container(
                 height: 350,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(article.image), fit: BoxFit.cover)),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(article.image), fit: BoxFit.cover)),
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -38,80 +40,95 @@ class ArticleDetailPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 40,
+              top: 30,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new, size: 25, color: Colors.white)),
-                    // Row(
-                    //   children: [
-                    //     IconButton(
-                    //       onPressed: () => Navigator.pop(context),
-                    //       icon: Icon(article.isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 25, color: article.isSaved ? Colors.red : Colors.white),
-                    //     ),
-                    //     IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.more_horiz, size: 25, color: Colors.white)),
-                    //   ],
-                    // )
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 140,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 160,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CategoryChip(label: article.category.name, labelColor: Colors.white, backgroundColor: Colors.red, onTap: (){},),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Text(
-                              article.title,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
-                              softWrap: true,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text('${article.source} - ${displayTime(time: time)}', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontSize: 12)),
-                        ],
+                      const BackButton(
+                        color: Colors.white,
                       ),
+                      CategoryChip(
+                        label: article.category.name,
+                        labelColor: Colors.white,
+                        backgroundColor: ColorThemes.primarySwatch,
+                        onTap: () {},
+                      )
                     ],
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: 300,
+              top: 160,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0, right: 15),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 160,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Text(
+                          article.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  color: Colors.white,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                          softWrap: true,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                          '${article.source} - ${_displayPublicationDate(article.publicationDate)}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: Colors.white, fontSize: 14)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 270,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 width: MediaQuery.of(context).size.width,
-                height: 1000,
+                height: 100,
+                constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - 270),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
                   ),
                 ),
-                child: ListView(
-                  primary: false,
-                  shrinkWrap: true,
-                  children: [
-                    Text(article.summary, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
-                    const SizedBox(height: 10),
-                    Text(article.content),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(article.summary,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.justify,),
+                        const SizedBox(height: 10),
+                        Text(article.content, textAlign: TextAlign.justify,),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -129,7 +146,9 @@ class ArticleDetailPage extends StatelessWidget {
           child: Container(
             height: 400,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(article.image), fit: BoxFit.cover)),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(article.image), fit: BoxFit.cover)),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -150,16 +169,10 @@ class ArticleDetailPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new, size: 25, color: Colors.white)),
-              // Row(
-              //   children: [
-              //     IconButton(
-              //       onPressed: () => Navigator.pop(context),
-              //       icon: Icon(article.isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 25, color: article.isSaved ? Colors.red : Colors.white),
-              //     ),
-              //     IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.more_horiz, size: 25, color: Colors.white)),
-              //   ],
-              // )
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_ios_new,
+                      size: 25, color: Colors.white)),
             ],
           ),
         ),
@@ -173,7 +186,12 @@ class ArticleDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryChip(label: article.category.name, labelColor: Colors.white, backgroundColor: Colors.red, onTap: () {},),
+                  CategoryChip(
+                    label: article.category.name,
+                    labelColor: Colors.white,
+                    backgroundColor: ColorThemes.primarySwatch,
+                    onTap: () {},
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -181,14 +199,24 @@ class ArticleDetailPage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         child: Text(
                           article.title,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 19),
                           softWrap: true,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(displayTime(time: time), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontSize: 12)),
+                      Text(_displayPublicationDate(article.publicationDate),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: Colors.white, fontSize: 12)),
                     ],
                   ),
                 ],
@@ -200,19 +228,55 @@ class ArticleDetailPage extends StatelessWidget {
     );
   }
 
-  String displayTime({required Duration time}) {
-      if (time.inSeconds < 60) {
-        return "Il y'a ${time.inSeconds} secondes";
+  String _displayPublicationDate(DateTime publicationDate) {
+    DateTime now = DateTime.now();
+    if (publicationDate.day == now.day) {
+      final difference = now.difference(publicationDate);
+      if (difference.inSeconds < 60) {
+        return "Il y'a ${difference.inSeconds} secondes";
       } else {
-        if (time.inMinutes < 60) {
-          return "Il y'a ${time.inMinutes} minutes";
+        if (difference.inMinutes < 60) {
+          return "Il y'a ${difference.inMinutes} minutes";
         } else {
-          if (time.inHours == 1) {
-            return "Il y'a ${time.inHours} heure";
+          if (difference.inHours == 1) {
+            return "Il y'a ${difference.inHours} heure";
           } else {
-            return "Il y'a ${time.inHours} heures";
+            return "Il y'a ${difference.inHours} heures";
           }
         }
       }
+    }
+
+    return "${publicationDate.day} ${monthInLetter(publicationDate.month)} ${publicationDate.year}";
+  }
+
+  String monthInLetter(int month) {
+    switch (month) {
+      case 1:
+        return "Janvier";
+      case 2:
+        return "Février";
+      case 3:
+        return "Mars";
+      case 4:
+        return "Avril";
+      case 5:
+        return "Mai";
+      case 6:
+        return "Juin";
+      case 7:
+        return "Juillet";
+      case 8:
+        return "Août";
+      case 9:
+        return "Septembre";
+      case 10:
+        return "Octobre";
+      case 11:
+        return "Novembre";
+      case 12:
+        return "Décembre";
+    }
+    return "";
   }
 }

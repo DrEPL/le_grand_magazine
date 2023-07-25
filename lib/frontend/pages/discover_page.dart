@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/backend/services/category_services.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
@@ -76,9 +77,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     label: categories[index].name,
                     labelColor: _currentCategoryIndex == index
                         ? Colors.white
-                        : Colors.red,
+                        : ColorThemes.primarySwatch,
                     backgroundColor: _currentCategoryIndex == index
-                        ? Colors.red
+                        ? ColorThemes.primarySwatch
                         : Colors.white,
                     onTap: () {
                       setState(() {
@@ -97,74 +98,92 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
           // Afficher les articles par section
           Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              physics: const ClampingScrollPhysics(),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  final category = categories[index];
-                  final sectionArticles = articlesBySection[category.name];
-                  int sectionArticleLength = sectionArticles?.length ?? 0;
-
-                  return AutoScrollTag(
-                    controller: _scrollController,
-                    index: index,
-                    key: ValueKey(index),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        (sectionArticleLength != 0)
-                            ? Text(
-                                category.name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                        const SizedBox(height: 8),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: sectionArticleLength,
-                          itemBuilder: (context, articleIndex) {
-                            final article = sectionArticles![articleIndex];
-                            // Affichez les articles ici
-                            return articleIndex < _visibleItemCount
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8.0, bottom: 8.0),
-                                    child: RecommendedArticle(
-                                      title: article.title,
-                                      category: article.category.name,
-                                      imageUrl: article.image,
-                                      publicationDate: article.publicationDate,
-                                      onIconPressed: () {},
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  ArticleDetailPage(
-                                                      article: article))),
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const ClampingScrollPhysics(),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: categories.length,
+                    itemBuilder: (context, index) {
+                      final category = categories[index];
+                      final sectionArticles = articlesBySection[category.name];
+                      int sectionArticleLength = sectionArticles?.length ?? 0;
+                      return AutoScrollTag(
+                        controller: _scrollController,
+                        index: index,
+                        key: ValueKey(index),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            (sectionArticleLength != 0)
+                                ? Text(
+                                    category.name,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
                                     ),
                                   )
-                                : const SizedBox.shrink();
-                          },
+                                : const SizedBox.shrink(),
+                            const SizedBox(height: 8),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemCount: sectionArticleLength,
+                              itemBuilder: (context, articleIndex) {
+                                final article = sectionArticles![articleIndex];
+                                // Affichez les articles ici
+                                return articleIndex < _visibleItemCount
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8.0, bottom: 8.0),
+                                        child: RecommendedArticle(
+                                          title: article.title,
+                                          category: article.category.name,
+                                          imageUrl: article.image,
+                                          publicationDate:
+                                              article.publicationDate,
+                                          onIconPressed: () {},
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          ArticleDetailPage(
+                                                              article:
+                                                                  article))),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink();
+                              },
+                            ),
+                            if (_visibleItemCount < sectionArticleLength)
+                              Center(
+                                  child: TextButton(
+                                      onPressed: _onSeeMorePressed,
+                                      child: const Text(AppStrings.seeMore))),
+                            const SizedBox(height: 16),
+                          ],
                         ),
-                        if (_visibleItemCount < sectionArticleLength)
-                          Center(
-                              child: TextButton(
-                                  onPressed: _onSeeMorePressed,
-                                  child: const Text(AppStrings.seeMore))),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  bottom: 16.0,
+                  right: 16.0,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      _scrollController.animateTo(0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                    },
+                    child: const Icon(Icons.arrow_upward),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

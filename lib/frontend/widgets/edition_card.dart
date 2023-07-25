@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 
 class EditionCard extends StatefulWidget {
   final String imageUrl;
@@ -60,10 +61,10 @@ class _EditionCardState extends State<EditionCard> {
               //     children: [
               //       Text(widget.numero,
               //           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //               color: Colors.red, fontWeight: FontWeight.normal)),
+              //               colorColorTheme.primarySwatch, fontWeight: FontWeight.normal)),
               //       Text(widget.periode,
               //           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //               color: Colors.red, fontWeight: FontWeight.normal, letterSpacing: 1),),
+              //               colorColorTheme.primarySwatch, fontWeight: FontWeight.normal, letterSpacing: 1),),
               //     ],
               //   ),
               // ),
@@ -130,9 +131,9 @@ class _EditionCardState extends State<EditionCard> {
                           onPressed: () {
                             _showDownloadDialog(context);
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.download,
-                            color: Colors.red,
+                            color: ColorThemes.primarySwatch,
                           ))
                     ],
                   ),

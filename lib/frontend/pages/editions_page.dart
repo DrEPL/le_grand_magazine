@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/edition.dart';
 import 'package:le_grand_magazine/backend/services/edition_services.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/widgets/edition_card.dart';
 import 'package:provider/provider.dart';
 import '../utils/app_strings.dart';
@@ -68,9 +69,9 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
                     label: years[index],
                     labelColor: _currentCategoryIndex == index
                         ? Colors.white
-                        : Colors.red,
+                        : ColorThemes.primarySwatch,
                     backgroundColor: _currentCategoryIndex == index
-                        ? Colors.red
+                        ? ColorThemes.primarySwatch
                         : Colors.white,
                     onTap: () {
                       setState(() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 
 class RecommendedArticle extends StatelessWidget {
   final String imageUrl, category, title;
@@ -52,7 +53,8 @@ class RecommendedArticle extends StatelessWidget {
                     // const SizedBox(height: 2),
                     Text(category,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.red, fontWeight: FontWeight.w500)),
+                            color: ColorThemes.primarySwatch,
+                            fontWeight: FontWeight.w500)),
                     Flexible(
                       child: Text(
                         title,

@@ -18,7 +18,7 @@ class SectionText extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text, style: Theme.of(context).textTheme.titleLarge),
+            Text(text, style: const TextStyle(fontFamily: 'DIN', fontSize: 20), ),
             displayTextButton
                 ? TextButton(
                     onPressed: onSeeMorePressed,

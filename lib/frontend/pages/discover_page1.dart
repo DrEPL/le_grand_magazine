@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/enums/category.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     const categories = Category.values;
     final articleProvider = Provider.of<ArticleListProvider>(context);
     final articles = articleProvider.listOfArticle;
-    
+
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: Padding(
@@ -46,9 +47,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       label: categories[index].displayName(),
                       labelColor: _currentCategoryIndex == index
                           ? Colors.white
-                          : Colors.red,
+                          : ColorThemes.primarySwatch,
                       backgroundColor: _currentCategoryIndex == index
-                          ? Colors.red
+                          ? ColorThemes.primarySwatch
                           : Colors.white,
                       onTap: () {
                         setState(() {
