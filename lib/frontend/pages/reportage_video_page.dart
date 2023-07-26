@@ -113,7 +113,8 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontSize: 40)),
+                        fontSize: 40,
+                        fontFamily: 'DIN')),
                 Text(AppStrings.allVideos,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w400, color: Colors.black)),

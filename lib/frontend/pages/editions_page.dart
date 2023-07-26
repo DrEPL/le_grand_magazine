@@ -54,7 +54,8 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
-                  fontSize: 40)),
+                  fontSize: 40,
+                  fontFamily: 'DIN')),
           Text(AppStrings.savedDescription,
               style: Theme.of(context)
                   .textTheme

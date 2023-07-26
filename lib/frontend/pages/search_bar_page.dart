@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
+import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 import 'package:provider/provider.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../backend/services/article_services.dart';
 import 'article_detail_page.dart';
 
@@ -14,6 +16,9 @@ class SearcheBarPage extends StatefulWidget {
 
 class _SearcheBarPageState extends State<SearcheBarPage> {
   List<Article> filteredArticles = [];
+  final AutoScrollController _scrollController = AutoScrollController();
+  bool _isAtTop = true;
+
   final gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 400,
       childAspectRatio: 4 / 2,
@@ -46,6 +51,12 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
     super.initState();
     _searchController.addListener(_checkShowClearButton);
     _searchFocusNode.requestFocus();
+    _scrollController.addListener(() {
+      setState(() {
+        _isAtTop = _scrollController.offset <=
+            _scrollController.position.minScrollExtent;
+      });
+    });
   }
 
   void _checkShowClearButton() async {
@@ -90,37 +101,56 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
             textInputAction: TextInputAction.search,
           ),
           backgroundColor: Colors.white,
-          leading: const BackButton(
-            color: Colors.black,
+          leading: BackButton(
+            color: ColorThemes.primarySwatch,
           ),
           elevation: 0,
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: filteredArticles.isNotEmpty
-              ? GridView.builder(
-                  gridDelegate: gridDelegate,
-                  itemCount: filteredArticles.isNotEmpty
-                      ? filteredArticles.length
-                      : articles.length,
-                  itemBuilder: (context, index) {
-                    final article = filteredArticles.isNotEmpty
-                        ? filteredArticles
-                        : articles;
-                    return RecommendedArticle(
-                      title: article[index].title,
-                      category: article[index].category.name,
-                      imageUrl: article[index].image,
-                      publicationDate: article[index].publicationDate,
-                      onIconPressed: () {},
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ArticleDetailPage(article: article[index]))),
-                    );
-                  },
-                )
+              ? Stack(children: [
+                  GridView.builder(
+                    controller: _scrollController,
+                    gridDelegate: gridDelegate,
+                    itemCount: filteredArticles.isNotEmpty
+                        ? filteredArticles.length
+                        : articles.length,
+                    itemBuilder: (context, index) {
+                      final article = filteredArticles.isNotEmpty
+                          ? filteredArticles
+                          : articles;
+                      return RecommendedArticle(
+                        title: article[index].title,
+                        category: article[index].category.name,
+                        imageUrl: article[index].image,
+                        publicationDate: article[index].publicationDate,
+                        onIconPressed: () {},
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ArticleDetailPage(
+                                        article: article[index]))),
+                      );
+                    },
+                  ),
+                  Visibility(
+                    visible: !_isAtTop,
+                    child: Positioned(
+                      bottom: 16.0,
+                      right: 16.0,
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          _scrollController.animateTo(0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut);
+                        },
+                        child: const Icon(Icons.arrow_upward),
+                      ),
+                    ),
+                  ),
+                ])
               : Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

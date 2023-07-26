@@ -19,9 +19,21 @@ class DiscoverPage extends StatefulWidget {
 
 class _DiscoverPageState extends State<DiscoverPage> {
   int _currentCategoryIndex = 0;
+  bool _isAtTop = true;
   dynamic categorySelected = "Afrique";
   final AutoScrollController _scrollController = AutoScrollController();
   int _visibleItemCount = 3; // Nombre initial d'éléments à afficher
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      setState(() {
+        _isAtTop = _scrollController.offset <=
+            _scrollController.position.minScrollExtent;
+      });
+    });
+  }
 
   void _scrollToSection(int index) {
     _scrollController.scrollToIndex(
@@ -62,7 +74,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
-                  fontSize: 40)),
+                  fontSize: 40,
+                  fontFamily: 'DIN')),
           Text(AppStrings.allNews,
               style: Theme.of(context)
                   .textTheme
@@ -171,16 +184,19 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     },
                   ),
                 ),
-                Positioned(
-                  bottom: 16.0,
-                  right: 16.0,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      _scrollController.animateTo(0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut);
-                    },
-                    child: const Icon(Icons.arrow_upward),
+                Visibility(
+                  visible: !_isAtTop,
+                  child: Positioned(
+                    bottom: 16.0,
+                    right: 16.0,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        _scrollController.animateTo(0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut);
+                      },
+                      child: const Icon(Icons.arrow_upward),
+                    ),
                   ),
                 ),
               ],

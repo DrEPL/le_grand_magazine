@@ -1,10 +1,6 @@
 // ignore_for_file: deprecated_member_use
-import 'dart:async';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:le_grand_magazine/backend/models/video.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
-import 'package:le_grand_magazine/backend/services/video_services.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
 import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
@@ -13,7 +9,7 @@ import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
 import 'package:le_grand_magazine/frontend/widgets/section_text.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:video_player/video_player.dart';
+import '../../backend/models/article.dart';
 import 'breakingNews.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,23 +20,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Video> videoUrls = [];
-  List<VideoPlayerController> _controllers = [];
-  List<bool> _isPlaying = [];
-  Timer? _timer;
   final AutoScrollController _scrollController = AutoScrollController();
-  final Duration _refreshDuration = const Duration(
-      minutes: 4); // Temps d'attente avant chaque rafraîchissement
+  List<Article> breakingNews = [];
   bool _isAtTop = true;
 
   @override
   void initState() {
     super.initState();
-    _initializeVideoPlayers();
-    _timer = Timer.periodic(_refreshDuration, (_) {
-      _resetVideoPlayers();
-      debugPrint("Fetch de l'image après $_refreshDuration minutes.");
-    });
     _scrollController.addListener(() {
       setState(() {
         _isAtTop = _scrollController.offset <=
@@ -49,85 +35,41 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _initializeVideoPlayers() async {
-    final videoProvider =
-        Provider.of<VideoListProvider>(context, listen: false);
-    videoUrls = await videoProvider.listOfVideos();
-
-    for (final video in videoUrls) {
-      final controller = VideoPlayerController.network(video.video_link);
-      await controller.initialize();
-      setState(() {
-        _controllers.add(controller);
-        // Défaut : la vidéo n'est pas en cours de lecture
-        _isPlaying.add(false);
-      });
-    }
-  }
-
   final gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisSpacing: 10, mainAxisSpacing: 10, crossAxisCount: 2);
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    for (final controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  void _playPauseVideo(int index) {
-    setState(() {
-      for (var i = 0; i < _controllers.length; i++) {
-        if (i != index) {
-          _controllers[i].pause();
-          _isPlaying[i] = false;
-        }
-      }
-
-      if (_isPlaying[index]) {
-        _controllers[index].pause();
-      } else {
-        _controllers[index].play();
-      }
-      _isPlaying[index] = !_isPlaying[index];
-    });
-  }
-
-  void _resetVideoPlayers() {
-    for (final controller in _controllers) {
-      controller.dispose();
-    }
-    _controllers.clear();
-    _isPlaying.clear();
-    _initializeVideoPlayers();
-  }
 
   @override
   Widget build(BuildContext context) {
     final articleProvider = Provider.of<ArticleListProvider>(context);
     final articles = articleProvider.listOfArticle;
+    breakingNews = [];
+    for (final article in articles) {
+      if (article.isBreakingNews) {
+        breakingNews.add(article);
+      }
+    }
+
     return Stack(
       children: [
         SingleChildScrollView(
           controller: _scrollController,
           child: Column(
             children: [
-              articles.isNotEmpty
-                  ? SectionText(
-                      text: AppStrings.breakingNews,
-                      onSeeMorePressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const BreakingNews()));
-                      },
-                      displayTextButton: true,
-                    )
-                  : const SizedBox.shrink(),
-              articles.isNotEmpty ? const Carousel() : const SizedBox.shrink(),
+              Visibility(
+                visible: breakingNews.isNotEmpty,
+                child: SectionText(
+                  text: AppStrings.breakingNews,
+                  onSeeMorePressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const BreakingNews()));
+                  },
+                  displayTextButton: true,
+                ),
+              ),
+              const Carousel(),
               // videoUrls.isNotEmpty
               //     ? SectionText(
               //         text: AppStrings.videos,

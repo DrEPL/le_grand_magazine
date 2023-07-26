@@ -48,47 +48,50 @@ class _CarouselState extends State<Carousel> {
 
           return StatefulBuilder(
             builder: (context, setState) {
-              return Column(
-                children: [
-                  CarouselSlider.builder(
-                    itemCount: breakingNews.length,
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      height: 280,
-                      initialPage: 0,
-                      autoPlayInterval: const Duration(seconds: 9),
-                      enlargeCenterPage: true,
-                      onPageChanged: (index, _) =>
-                          setState(() => activeIndex = index),
+              return Visibility(
+                visible: breakingNews.isNotEmpty,
+                child: Column(
+                  children: [
+                    CarouselSlider.builder(
+                      itemCount: breakingNews.length,
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        height: 280,
+                        initialPage: 0,
+                        autoPlayInterval: const Duration(seconds: 9),
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, _) =>
+                            setState(() => activeIndex = index),
+                      ),
+                      itemBuilder: (context, index, _) {
+                        return GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ArticleDetailPage(
+                                          article: breakingNews[index]))),
+                          child: Stack(
+                            children: [
+                              buildImage(index, breakingNews),
+                              buildCategory(index, context, breakingNews),
+                              buildTimeAndTitle(context, index, breakingNews)
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    itemBuilder: (context, index, _) {
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    ArticleDetailPage(
-                                        article: breakingNews[index]))),
-                        child: Stack(
-                          children: [
-                            buildImage(index, breakingNews),
-                            buildCategory(index, context, breakingNews),
-                            buildTimeAndTitle(context, index, breakingNews)
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 25),
-                  AnimatedSmoothIndicator(
-                    activeIndex: activeIndex,
-                    count: breakingNews.length,
-                    effect: ExpandingDotsEffect(
-                        activeDotColor: Theme.of(context).primaryColor,
-                        dotHeight: 5,
-                        dotWidth: 5),
-                  ),
-                ],
+                    const SizedBox(height: 25),
+                    AnimatedSmoothIndicator(
+                      activeIndex: activeIndex,
+                      count: breakingNews.length,
+                      effect: ExpandingDotsEffect(
+                          activeDotColor: Theme.of(context).primaryColor,
+                          dotHeight: 5,
+                          dotWidth: 5),
+                    ),
+                  ],
+                ),
               );
             }
           );
