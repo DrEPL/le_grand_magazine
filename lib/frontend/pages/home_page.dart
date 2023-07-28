@@ -57,16 +57,19 @@ class _HomePageState extends State<HomePage> {
             children: [
               Visibility(
                 visible: breakingNews.isNotEmpty,
-                child: SectionText(
-                  text: AppStrings.breakingNews,
-                  onSeeMorePressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const BreakingNews()));
-                  },
-                  displayTextButton: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: SectionText(
+                    text: AppStrings.breakingNews,
+                    onSeeMorePressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const BreakingNews()));
+                    },
+                    displayTextButton: true,
+                  ),
                 ),
               ),
               const Carousel(),
@@ -115,12 +118,15 @@ class _HomePageState extends State<HomePage> {
               //     ),
               //   );
               // }),
-              SectionText(
-                text: AppStrings.recommendation,
-                onSeeMorePressed: () {
-                  const DiscoverPage();
-                },
-                displayTextButton: false,
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: SectionText(
+                  text: AppStrings.recommendation,
+                  onSeeMorePressed: () {
+                    const DiscoverPage();
+                  },
+                  displayTextButton: false,
+                ),
               ),
               ListView.separated(
                 primary: false,

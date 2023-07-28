@@ -14,11 +14,13 @@ class SectionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text, style: const TextStyle(fontFamily: 'DIN', fontSize: 20), ),
+            Text(text,
+                style: const TextStyle(fontFamily: 'DIN', fontSize: 20),
+                softWrap: true),
             displayTextButton
                 ? TextButton(
                     onPressed: onSeeMorePressed,

@@ -40,7 +40,7 @@ class ArticleDetailPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 30,
+              top: 40,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
@@ -63,12 +63,12 @@ class ArticleDetailPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 160,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0, right: 15),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 160,
+              top: 130,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 160,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -83,7 +83,7 @@ class ArticleDetailPage extends StatelessWidget {
                                   color: Colors.white,
                                   fontFamily: 'DIN',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                                  fontSize: 18),
                           softWrap: true,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,

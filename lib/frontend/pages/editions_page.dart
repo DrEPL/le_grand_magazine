@@ -46,7 +46,7 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
     final editionProvider = Provider.of<EditionListProvider>(context);
     List<Edition> editions = editionProvider.listOfEdition;
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
