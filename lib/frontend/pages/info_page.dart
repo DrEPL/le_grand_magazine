@@ -14,19 +14,19 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   List<dynamic> link = [
     {
-      "img":"assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/LGM_CIRCLE.png",
       "url": "https://www.facebook.com/legrandmag.cg/"
     },
     {
-      "img":"assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/LGM_CIRCLE.png",
       "url": "https://www.linkedin.com/in/magazine-le-grand-11455a253/"
     },
     {
-      "img":"assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/LGM_CIRCLE.png",
       "url": "https://www.instagram.com/legrandmagazine.cg/"
     },
     {
-      "img":"assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/LGM_CIRCLE.png",
       "url": "https://twitter.com/LeGrandMagazine/"
     },
   ];
@@ -182,13 +182,16 @@ class _InfoPageState extends State<InfoPage> {
             child: SizedBox(
                 height: 100,
                 child: ListView.separated(
+                    primary: false,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () async {
                           // _launchURL;
-                          if (await canLaunchUrl(Uri.parse(link[index]["url"]))) {
-                            launchUrl(Uri.parse(link[index]["url"]), mode: LaunchMode.externalApplication);
+                          if (await canLaunchUrl(
+                              Uri.parse(link[index]["url"]))) {
+                            launchUrl(Uri.parse(link[index]["url"]),
+                                mode: LaunchMode.externalApplication);
                           } else {
                             throw Exception('Impossible d\'ouvrir le lien');
                           }
@@ -205,12 +208,12 @@ class _InfoPageState extends State<InfoPage> {
                     },
                     itemCount: link.length)),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            "Copyright © ${DateTime.now().year} LE GRAND MAGAZINE | DrEPL",
-            style: const TextStyle(color: Color.fromARGB(255, 112, 112, 112)),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Text(
+              "Copyright © ${DateTime.now().year} LE GRAND MAGAZINE | DrEPL",
+              style: const TextStyle(color: Color.fromARGB(255, 112, 112, 112)),
+            ),
           )
         ],
       ),

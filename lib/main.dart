@@ -17,6 +17,7 @@ void main() {
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: ColorThemes.primarySwatch,
             visualDensity: VisualDensity.adaptivePlatformDensity),
         debugShowCheckedModeBanner: false,
-        home: 
+        home:
         // const MainPage(),
         SafeArea(
           child: AnimatedSplashScreen(
@@ -52,3 +53,74 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const VideoPlayerExample(),
+//     );
+//   }
+// }
+
+// class VideoPlayerExample extends StatefulWidget {
+//   const VideoPlayerExample({Key? key}) : super(key: key);
+
+//   @override
+//   State<VideoPlayerExample> createState() => _VideoPlayerExampleState();
+// }
+
+// class _VideoPlayerExampleState extends State<VideoPlayerExample> {
+//   late VideoPlayerController controller;
+//   String videoUrl =
+//       'http://127.0.0.1:8000/media/videos/le_la_lui.mp4';
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller = VideoPlayerController.network(videoUrl);
+
+//     controller.addListener(() {
+//       setState(() {});
+//     });
+//     // controller.setLooping(true);
+//     controller.initialize().then((_) => setState(() {}));
+//     controller.play();
+//   }
+
+//   @override
+//   void dispose() {
+//     controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: InkWell(
+//           onTap: () {
+//             // if (controller.value.isPlaying) {
+//             //   controller.pause();
+//             // } else {
+//             //   controller.play();
+//             // }
+//           },
+//           child: AspectRatio(
+//             aspectRatio: controller.value.aspectRatio,
+//             child: FlickVideoPlayer(
+//                 flickManager: FlickManager(videoPlayerController: controller)),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
