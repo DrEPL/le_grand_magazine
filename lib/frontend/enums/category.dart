@@ -1,4 +1,5 @@
 enum Category {
+  Toutes,
   Afrique,
   Politique,
   Economie,
@@ -15,6 +16,8 @@ extension CategoryExtension on Category {
     String category = toString().split(".").last;
 
     switch (category) {
+      case "Toutes":
+        return "Toutes";
       case "Afrique":
         return "Afrique";
       case "Politique":

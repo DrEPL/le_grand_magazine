@@ -44,50 +44,48 @@ class RecommendedArticle extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              SizedBox(
-                width: screenSize.width * 0.5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    // const SizedBox(height: 2),
-                    Text(category,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: ColorThemes.primarySwatch,
-                            fontWeight: FontWeight.w500)),
-                    Flexible(
-                      child: Text(
-                        title,
-                        style:
-                            Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: (screenSize.width < 380) ? 15 : 18,
-                                ),
-                        maxLines: 5,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // const SizedBox(height: 2),
+                  Text(category,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: ColorThemes.primarySwatch,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    width: screenSize.width * 0.45,
+                    child: Text(
+                      title,
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: (screenSize.width < 380) ? 13 : 15,
+                              ),
+                      maxLines: 6,
+                      softWrap: true,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            _displayPublicationDate(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
+                  ),
+                  SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _displayPublicationDate(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

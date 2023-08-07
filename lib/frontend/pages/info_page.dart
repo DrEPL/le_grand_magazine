@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/app_strings.dart';
 import '../widgets/section_text.dart';
+import 'maps_page.dart';
 
 class InfoPage extends StatefulWidget {
   const InfoPage({super.key});
@@ -14,20 +15,24 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   List<dynamic> link = [
     {
-      "img": "assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/Logo_Facebook.png",
       "url": "https://www.facebook.com/legrandmag.cg/"
     },
     {
-      "img": "assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/Logo_LinkeIn.png",
       "url": "https://www.linkedin.com/in/magazine-le-grand-11455a253/"
     },
     {
-      "img": "assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/Logo_Instagram.png",
       "url": "https://www.instagram.com/legrandmagazine.cg/"
     },
     {
-      "img": "assets/images/LGM_CIRCLE.png",
+      "img": "assets/images/Logo_Twitter.png",
       "url": "https://twitter.com/LeGrandMagazine/"
+    },
+    {
+      "img": "assets/images/Logo_Youtube.png",
+      "url": "https://www.youtube.com/@LeGrandMagazine"
     },
   ];
 
@@ -41,9 +46,10 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     Uri url = Uri.parse("https://www.legrandmagazine.cg");
+    Size screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
         child: Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
           Row(
@@ -64,9 +70,12 @@ class _InfoPageState extends State<InfoPage> {
             height: 10,
           ),
           const Text(
-            "Le Grand Magazine créé en 2016, est considéré comme le magazine de référence de l'actualité générale en République du Congo. Le Grand Magazine est une vitrine des institutions publiques et privées, conçu pour donner aux lecteurs accès à l'actualité politique, économique, sociale, culturelle et sportive.",
+            "Le Grand Magazine est avant tout un produit du Grand Rhema qui est une agence de communication. Le Grand Magazine existe depuis 2016 et est considéré comme le magazine de référence de l'actualité générale en République du Congo.Le Grand Magazine est une vitrine mais aussi  le canal de communication des institutions privées et publiques conçu pour donner aux lecteurs accès à l'actualité politique, économique, sociale, culturelle et sportive.",
             softWrap: true,
             textAlign: TextAlign.justify,
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Row(
             children: [
@@ -91,68 +100,97 @@ class _InfoPageState extends State<InfoPage> {
             softWrap: true,
             textAlign: TextAlign.justify,
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(MdiIcons.web, color: const Color.fromARGB(255, 112, 112, 112)),
-            TextButton(
-                onPressed: () async {
-                  if (await canLaunchUrl(url)) {
-                    launchUrl(url, mode: LaunchMode.externalApplication);
-                  } else {
-                    throw Exception('Impossible d\'ouvrir le lien');
-                  }
-                },
-                child: const Text("www.legrandmagazine.cg")),
-          ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(MdiIcons.phoneClassic,
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Icon(MdiIcons.web,
                   color: const Color.fromARGB(255, 112, 112, 112)),
               TextButton(
                   onPressed: () async {
-                    Uri phone = Uri(scheme: 'tel', path: "+242066540303");
-                    if (await canLaunchUrl(phone)) {
-                      launchUrl(phone);
-                    } else {
-                      throw Exception('Impossible d\'appeler');
-                    }
+                    // if (await canLaunchUrl(url)) {
+                    launchUrl(url, mode: LaunchMode.externalApplication);
+                    // } else {
+                    //   throw Exception('Impossible d\'ouvrir le lien');
+                    // }
                   },
-                  child: const Text("+242 06 654 03 03")),
-              const Text("/"),
+                  child: const Text("www.legrandmagazine.cg",
+                      style: TextStyle(fontSize: 12))),
+            ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(MdiIcons.phoneClassic,
+                    color: const Color.fromARGB(255, 112, 112, 112)),
+                TextButton(
+                    onPressed: () async {
+                      Uri phone = Uri(scheme: 'tel', path: "+242066540303");
+                      launchUrl(phone);
+                    },
+                    child: const Text("+242 06 654 03 03",
+                        style: TextStyle(fontSize: 12))),
+                const Text("/"),
+                Flexible(
+                  child: TextButton(
+                      onPressed: () async {
+                        Uri phone = Uri(scheme: 'tel', path: "+242053930624");
+                        launchUrl(phone);
+                      },
+                      child: const Text(
+                        "+242 05 393 06 24",
+                        style: TextStyle(fontSize: 12),
+                      )),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Icon(MdiIcons.emailOutline,
+                  color: const Color.fromARGB(255, 112, 112, 112)),
               TextButton(
                   onPressed: () async {
-                    Uri phone = Uri(scheme: 'tel', path: "+242053930624");
-                    if (await canLaunchUrl(phone)) {
-                      launchUrl(phone);
-                    } else {
-                      throw Exception('Impossible d\'appeler');
-                    }
-                  },
-                  child: const Text("+242 05 393 06 24")),
-            ],
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(MdiIcons.emailOutline,
-                color: const Color.fromARGB(255, 112, 112, 112)),
-            TextButton(
-                onPressed: () async {
-                  Uri emailLaunchUri = Uri(
-                    scheme: 'mailto',
-                    path: 'contact@legrandmagazine.cg',
-                    query: encodeQueryParameters(<String, String>{
-                      'subject': "Ecrivez l'objet de votre demande",
-                      'body': 'Ecrivez votre message ici',
-                    }),
-                  );
-
-                  if (await canLaunchUrl(emailLaunchUri)) {
+                    Uri emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: 'contact@legrandmagazine.cg',
+                      query: encodeQueryParameters(<String, String>{
+                        'subject': "Ecrivez l'objet de votre demande",
+                        'body': 'Ecrivez votre message ici',
+                      }),
+                    );
                     launchUrl(emailLaunchUri);
-                  } else {
-                    throw Exception('Impossible d\'envoyer un mail');
-                  }
-                },
-                child: const Text("contact@legrandmagazine.cg")),
-          ]),
+                  },
+                  child: const Text(
+                    "contact@legrandmagazine.cg",
+                    style: TextStyle(fontSize: 12),
+                  )),
+            ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              const Icon(Icons.location_city,
+                  color: Color.fromARGB(255, 112, 112, 112)),
+              Flexible(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MapPage(),
+                          ));
+                    },
+                    child: const Text(
+                        "1661, rue Matsiona Nzoulou en face de la préfecture de Brazzaville",
+                        softWrap: true,
+                        maxLines: 3,
+                        style: TextStyle(fontSize: 12))),
+              ),
+            ]),
+          ),
 
           // GridView(gridDelegate: gridDelegate),
           Row(
@@ -178,27 +216,22 @@ class _InfoPageState extends State<InfoPage> {
             textAlign: TextAlign.justify,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
             child: SizedBox(
-                height: 100,
+                height: 60,
                 child: ListView.separated(
                     primary: false,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () async {
-                          // _launchURL;
-                          if (await canLaunchUrl(
-                              Uri.parse(link[index]["url"]))) {
-                            launchUrl(Uri.parse(link[index]["url"]),
-                                mode: LaunchMode.externalApplication);
-                          } else {
-                            throw Exception('Impossible d\'ouvrir le lien');
-                          }
+                          launchUrl(Uri.parse(link[index]["url"]),
+                              mode: LaunchMode.externalApplication);
                         },
                         child: SizedBox(
-                          width: 100,
-                          height: 100,
+                          width: screenSize.width < 380 ? 80 : 70,
+                          height: screenSize.width < 380 ? 80 : 70,
                           child: Card(child: Image.asset(link[index]["img"])),
                         ),
                       );
@@ -212,7 +245,8 @@ class _InfoPageState extends State<InfoPage> {
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
               "Copyright © ${DateTime.now().year} LE GRAND MAGAZINE | DrEPL",
-              style: const TextStyle(color: Color.fromARGB(255, 112, 112, 112)),
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 112, 112, 112), fontSize: 10),
             ),
           )
         ],

@@ -19,7 +19,9 @@ class SectionText extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(text,
-                style: const TextStyle(fontFamily: 'DIN', fontSize: 20),
+                style: const TextStyle(fontFamily: 'DIN',
+                fontSize: 20),
+                strutStyle: const StrutStyle(fontWeight: FontWeight.bold),
                 softWrap: true),
             displayTextButton
                 ? TextButton(

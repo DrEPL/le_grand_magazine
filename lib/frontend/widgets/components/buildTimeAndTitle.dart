@@ -45,7 +45,15 @@ String displayTime({required Duration time}) {
       if (time.inHours == 1) {
         return "Il y'a ${time.inHours} heure";
       } else {
-        return "Il y'a ${time.inHours} heures";
+        if (time.inHours < 24) {
+          return "Il y'a ${time.inHours} heures";
+        } else {
+          if (time.inDays == 1) {
+            return "Il y'a ${time.inDays} jour";
+          } else {
+            return "Il y'a ${time.inDays} jours";
+          }
+        }
       }
     }
   }

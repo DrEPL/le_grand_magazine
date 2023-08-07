@@ -122,20 +122,57 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
                   itemCount: _controllers.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: SizedBox(
-                        height: 200,
+                        height: 320,
                         child: Card(
                           clipBehavior: Clip.hardEdge,
                           elevation: 10,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
-                          child: AspectRatio(
-                            aspectRatio: _controllers[index].value.aspectRatio,
-                            child: FlickVideoPlayer(
-                                flickManager: FlickManager(
-                                    videoPlayerController:
-                                        _controllers[index])),
+                          child: Column(
+                            children: [
+                              AspectRatio(
+                                aspectRatio:
+                                    _controllers[index].value.aspectRatio,
+                                child: FlickVideoPlayer(
+                                    flickManager: FlickManager(
+                                        videoPlayerController:
+                                            _controllers[index])),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(videoUrls[index].title,
+                                        textAlign: TextAlign.right,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            overflow: TextOverflow.ellipsis,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'DIN'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: SingleChildScrollView(
+                                        child: Text(videoUrls[index].summary,
+                                          textAlign: TextAlign.justify,
+                                          softWrap: true,
+                                          // maxLines: 8,
+                                          // overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -149,8 +186,8 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
         Visibility(
           visible: !_isAtTop,
           child: Positioned(
-            bottom: 16.0,
-            right: 16.0,
+            bottom: 15.0,
+            right: 5.0,
             child: FloatingActionButton(
               onPressed: () {
                 _scrollController.animateTo(0,

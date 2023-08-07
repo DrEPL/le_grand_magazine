@@ -30,11 +30,15 @@ class _BreakingNewsState extends State<BreakingNews> {
   final articles = articleProvider.listOfArticle;
   // Trier les BreakinkNews des articles
   breakingNews = [];
-  for (final article in articles) {
-    if (article.isBreakingNews) {
-      breakingNews.add(article);
-    }
+  // for (final article in articles) {
+  //   if (article.isBreakingNews) {
+  //     breakingNews.add(article);
+  //   }
+  // }
+  for (int i = 0; i < articles.length && i < 8; i++) {
+    breakingNews.add(articles[i]);
   }
+
   return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.breakingNews, style: TextStyle(color: Colors.black, fontSize: 24)),

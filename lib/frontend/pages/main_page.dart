@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/modern_pictograms_icons.dart';
-// import 'package:le_grand_magazine/backend/services/article_api.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/backend/services/category_services.dart';
 import 'package:le_grand_magazine/backend/services/edition_services.dart';
@@ -13,7 +12,7 @@ import 'package:le_grand_magazine/frontend/pages/search_bar_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'info_page.dart';
 import 'reportage_video_page.dart';
 
@@ -25,7 +24,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final screens = const [HomePage(), DiscoverPage(), SavedArticlePage(), ReportageVideoPage(), InfoPage()];
+  final screens = const [
+    HomePage(),
+    DiscoverPage(),
+    SavedArticlePage(),
+    ReportageVideoPage(),
+    InfoPage()
+  ];
   int currentPage = 0;
   Timer? _timer;
   final Duration _refreshDuration = const Duration(
@@ -104,10 +109,12 @@ class _MainPageState extends State<MainPage> {
                 icon: const Icon(Icons.search,
                     // color: Color.fromARGB(255, 112, 112, 112))),
                     color: Colors.white)),
-            // IconButton(
-            //     onPressed: () {},
-            //     icon: const Icon(Icons.notifications_outlined,
-            //         color: Color.fromARGB(255, 112, 112, 112)))
+            IconButton(
+                onPressed: () {
+                  Uri url = Uri.parse("https://www.legrandmagazine.cg");
+                  launchUrl(url, mode: LaunchMode.externalApplication);
+                },
+                icon: Icon(MdiIcons.web, color: Colors.white))
           ],
         ),
         body: screens[currentPage],
@@ -118,12 +125,17 @@ class _MainPageState extends State<MainPage> {
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           showSelectedLabels: false,
-          items:  [
-            const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
-            const BottomNavigationBarItem(icon: Icon(ModernPictograms.article_alt), label: ''),
-            BottomNavigationBarItem(icon: Icon(MdiIcons.bookOpenPageVariantOutline), label: ''),
-            const BottomNavigationBarItem(icon: Icon(Icons.ondemand_video_rounded), label: ''),
-            BottomNavigationBarItem(icon: Icon(MdiIcons.informationVariant), label: ''),
+          items: [
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined), label: ''),
+            const BottomNavigationBarItem(
+                icon: Icon(ModernPictograms.article_alt), label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(MdiIcons.bookOpenPageVariantOutline), label: ''),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.ondemand_video_rounded), label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(MdiIcons.informationVariant), label: ''),
           ],
         ),
       ),

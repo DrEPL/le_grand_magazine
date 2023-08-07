@@ -7,7 +7,7 @@ Future getVideos() async {
   try {
     final response = await http.get(Uri.parse(videosLink));
     if (response.statusCode == 200) {
-      final videosJson = jsonDecode(response.body);
+      final videosJson = jsonDecode(utf8.decode(response.bodyBytes));
       return videosJson;
     }
   } catch (e) {

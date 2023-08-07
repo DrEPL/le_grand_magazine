@@ -4,6 +4,7 @@ import 'package:le_grand_magazine/backend/services/edition_services.dart';
 import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/widgets/edition_card.dart';
 import 'package:provider/provider.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import '../utils/app_strings.dart';
 import '../widgets/category_chip.dart';
 
@@ -18,6 +19,8 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
   int _currentCategoryIndex = 0;
   dynamic yearSelected = "Toutes";
   List<String> years = [];
+  final AutoScrollController _scrollController = AutoScrollController();
+  bool _isAtTop = true;
   // final editions = EditionService().editions;
 
   List<String> getYears() {
@@ -36,9 +39,14 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     years = getYears();
     super.initState();
+    _scrollController.addListener(() {
+      setState(() {
+        _isAtTop = _scrollController.offset <=
+            _scrollController.position.minScrollExtent;
+      });
+    });
   }
 
   @override
@@ -88,29 +96,19 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              // height: MediaQuery.of(context).size.height*0.62,
-              physics: const ClampingScrollPhysics(),
-              child: ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                primary: false,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return yearSelected ==
-                          editions[index].dateEdition.year.toString()
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: EditionCard(
-                            title: editions[index].title ?? "",
-                            imageUrl: editions[index].imageUrl,
-                            dateEdition: editions[index].dateEdition,
-                            numero: editions[index].numero,
-                            theme: editions[index].theme ?? "",
-                            pdfUrl: editions[index].pdfUrl,
-                            periode: editions[index].periode,
-                          ),
-                        )
-                      : yearSelected == "Toutes"
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  // height: MediaQuery.of(context).size.height*0.62,
+                  physics: const ClampingScrollPhysics(),
+                  child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    primary: false,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return yearSelected ==
+                              editions[index].dateEdition.year.toString()
                           ? Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: EditionCard(
@@ -123,11 +121,41 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
                                 periode: editions[index].periode,
                               ),
                             )
-                          : const SizedBox.shrink();
-                },
-                separatorBuilder: (context, _) => const SizedBox(height: 5),
-                itemCount: editions.length,
-              ),
+                          : yearSelected == "Toutes"
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: EditionCard(
+                                    title: editions[index].title ?? "",
+                                    imageUrl: editions[index].imageUrl,
+                                    dateEdition: editions[index].dateEdition,
+                                    numero: editions[index].numero,
+                                    theme: editions[index].theme ?? "",
+                                    pdfUrl: editions[index].pdfUrl,
+                                    periode: editions[index].periode,
+                                  ),
+                                )
+                              : const SizedBox.shrink();
+                    },
+                    separatorBuilder: (context, _) => const SizedBox(height: 5),
+                    itemCount: editions.length,
+                  ),
+                ),
+                Visibility(
+                  visible: !_isAtTop,
+                  child: Positioned(
+                    bottom: 10.0,
+                    right: 5.0,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        _scrollController.animateTo(0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut);
+                      },
+                      child: const Icon(Icons.arrow_upward),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

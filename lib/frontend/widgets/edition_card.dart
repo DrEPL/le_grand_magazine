@@ -31,7 +31,7 @@ class _EditionCardState extends State<EditionCard> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.all(screenSize.width * 0.05),
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenSize.width * 0.1),
       child: SizedBox(
         height: 410,
         child: Card(
@@ -52,57 +52,6 @@ class _EditionCardState extends State<EditionCard> {
                   child: Image.network(widget.imageUrl, fit: BoxFit.fill),
                 ),
               ),
-              // const SizedBox(height: 8),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10, right: 10),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: [
-              //       Text(widget.numero,
-              //           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //               colorColorTheme.primarySwatch, fontWeight: FontWeight.normal)),
-              //       Text(widget.periode,
-              //           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //               colorColorTheme.primarySwatch, fontWeight: FontWeight.normal, letterSpacing: 1),),
-              //     ],
-              //   ),
-              // ),
-              // const SizedBox(height: 8),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10, right: 10),
-              //   child: Flexible(
-              //     child: Text(
-              //       widget.title,
-              //       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              //             fontWeight: FontWeight.bold,
-              //             fontSize: (screenSize.width < 380) ? 10 : 12,
-              //           ),
-              //       maxLines: 3,
-              //       softWrap: true,
-              //       textAlign: TextAlign.justify,
-              //       overflow: TextOverflow.ellipsis,
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: 5),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10, right: 10),
-              //   child: Flexible(
-              //     child: Text(
-              //       widget.theme.toLowerCase(),
-              //       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              //             fontWeight: FontWeight.w300,
-              //             color: Colors.grey,
-              //             fontSize: (screenSize.width < 380) ? 10 : 12,
-              //           ),
-              //       maxLines: 2,
-              //       softWrap: true,
-              //       textAlign: TextAlign.justify,
-              //       overflow: TextOverflow.ellipsis,
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: SizedBox(
