@@ -51,6 +51,7 @@ dependencies:
   fluttericon: ^2.0.0
   url_launcher: ^6.1.12
   google_maps_flutter: ^2.4.0
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

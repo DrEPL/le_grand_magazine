@@ -244,7 +244,7 @@ class _InfoPageState extends State<InfoPage> {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
-              "Copyright © ${DateTime.now().year} LE GRAND MAGAZINE | DrEPL",
+              "Copyright © ${DateTime.now().year} LE GRAND RHEMA",
               style: const TextStyle(
                   color: Color.fromARGB(255, 112, 112, 112), fontSize: 10),
             ),

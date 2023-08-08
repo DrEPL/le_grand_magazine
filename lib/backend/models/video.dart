@@ -5,11 +5,13 @@ class Video {
   final String title;
   final String video_link;
   final String summary;
+  final bool isLive;
   final DateTime created_at;
   Video({
     required this.title,
     required this.video_link,
     required this.summary,
+    required this.isLive,
     required this.created_at,
   });
 
@@ -17,12 +19,14 @@ class Video {
     String? title,
     String? video_link,
     String? summary,
+    bool? isLive,
     DateTime? created_at,
   }) {
     return Video(
       title: title ?? this.title,
       video_link: video_link ?? this.video_link,
       summary: summary ?? this.summary,
+      isLive: isLive ?? this.isLive,
       created_at: created_at ?? this.created_at,
     );
   }
@@ -32,6 +36,7 @@ class Video {
       'title': title,
       'video_link': video_link,
       'summary': summary,
+      'isLive': isLive,
       'created_at': created_at.millisecondsSinceEpoch,
     };
   }
@@ -41,6 +46,7 @@ class Video {
       title: map['title'] as String,
       video_link: map['video_link'] as String,
       summary: map['summary'] as String,
+      isLive: map['isLive'] as bool,
       created_at: DateTime.parse(map['created_at']),
     );
   }
@@ -52,7 +58,7 @@ class Video {
 
   @override
   String toString() {
-    return 'Video(title: $title, video_link: $video_link, summary: $summary, created_at: $created_at)';
+    return 'Video(title: $title, video_link: $video_link, summary: $summary, isLive: $isLive, created_at: $created_at)';
   }
 
   @override
@@ -62,6 +68,7 @@ class Video {
     return other.title == title &&
         other.video_link == video_link &&
         other.summary == summary &&
+        other.isLive == isLive &&
         other.created_at == created_at;
   }
 
@@ -70,6 +77,7 @@ class Video {
     return title.hashCode ^
         video_link.hashCode ^
         summary.hashCode ^
+        isLive.hashCode ^
         created_at.hashCode;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/models/video.dart';
 import 'Video_api.dart';
+import 'live_api.dart';
 
 class VideoListProvider extends ChangeNotifier {
   List<Video> listOfVideo = [];
@@ -28,9 +29,15 @@ class VideoListProvider extends ChangeNotifier {
     List<Video> listOfNewVideos = [];
     // Pour effectuer le fetch des nouveaux videos depuis l'API
     List<dynamic> newVideos = await getVideos();
-    
-    //Pour convertir les données de la liste Map en liste des videos 
-    listOfNewVideos = newVideos.map((video) => Video.fromMap(video)).toList();
+    List<dynamic> newLives = await getLives();
+
+    //Pour convertir les données de la liste Map en liste des videos
+    List<Video> listOfNewVideos1 =
+        newVideos.map((video) => Video.fromMap(video)).toList();
+    List<Video> listOfLives =
+        newLives.map((video) => Video.fromMap(video)).toList();
+    // Ajouter les vidéos de listOfNewVideos1 et listOfNewVideos2 à listOfNewVideos
+    listOfNewVideos = [...listOfLives, ...listOfNewVideos1];
     listOfVideo.clear();
 
     // Pour vérifier si les nouveaux videos sont différentes des videos actuels
@@ -47,7 +54,13 @@ class VideoListProvider extends ChangeNotifier {
 
   Future<List<Video>> listOfVideos() async {
     List<dynamic> videos = await getVideos();
+    List<dynamic> newLives = await getLives();
+    List<Video> listOfLives =
+        newLives.map((video) => Video.fromMap(video)).toList();
+    // Ajouter les vidéos de listOfNewVideos1 et listOfNewVideos2 à listOfNewVideos
     final listOfVideos = videos.map((video) => Video.fromMap(video)).toList();
-    return listOfVideos;
+    final listOfNewVideos = [...listOfLives, ...listOfVideos];
+
+    return listOfNewVideos;
   }
 }

@@ -4,3 +4,4 @@ const String articlesLink = "$ipAdress/articles/";
 const String categoriesLink = "$ipAdress/categories/";
 const String editionsLink = "$ipAdress/editions/";
 const String videosLink = "$ipAdress/videos/";
+const String livesLink = "$ipAdress/lives/";

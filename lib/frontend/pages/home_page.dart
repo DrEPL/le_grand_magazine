@@ -11,6 +11,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../backend/models/article.dart';
 import '../../backend/services/category_services.dart';
 import '../themes/colors_theme.dart';
+import '../utils/function.dart';
 import '../widgets/category_chip.dart';
 import 'breakingNews.dart';
 
@@ -85,138 +86,146 @@ class _HomePageState extends State<HomePage> {
 
     return Stack(
       children: [
-        CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  Visibility(
-                    visible: breakingNews.isNotEmpty,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: SectionText(
-                        text: AppStrings.breakingNews,
-                        onSeeMorePressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const BreakingNews()));
-                        },
-                        displayTextButton: true,
-                      ),
-                    ),
-                  ),
-                  const Carousel(),
-                ])),
-            SliverToBoxAdapter(
-                child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: SizedBox(
-                height: 80,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return CategoryChip(
-                        label: categories[index].name,
-                        labelColor: _currentCategoryIndex == index
-                            ? Colors.white
-                            : ColorThemes.primarySwatch,
-                        backgroundColor: _currentCategoryIndex == index
-                            ? ColorThemes.primarySwatch
-                            : Colors.white,
-                        onTap: () {
-                          setState(() {
-                            _currentCategoryIndex = index;
-                            categorySelected = categories[index].name;
-                          });
-                          _scrollToSection(index);
-                        });
-                  },
-                  separatorBuilder: (context, _) {
-                    return const SizedBox(width: 5);
-                  },
-                  itemCount: categories.length,
-                ),
-              ),
-            )),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final category = categories[index];
-                final sectionArticles = articlesBySection[category.name];
-                int sectionArticleLength = sectionArticles?.length ?? 0;
-                return AutoScrollTag(
-                  controller: _scrollController,
-                  index: index,
-                  key: ValueKey(index),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Column(
+        RefreshIndicator(
+          onRefresh: () async {
+            CategoryProvider(context);
+            ArticleProvider(context);
+            debugPrint("Tirer vers le bas");
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Visibility(
-                          visible: sectionArticleLength != 0,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Text(
-                              category.name,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 16,
-                                  fontStyle: FontStyle.italic),
+                    Visibility(
+                      visible: breakingNews.isNotEmpty,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: SectionText(
+                          text: AppStrings.breakingNews,
+                          onSeeMorePressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const BreakingNews()));
+                          },
+                          displayTextButton: true,
+                        ),
+                      ),
+                    ),
+                    const Carousel(),
+                  ])),
+              SliverToBoxAdapter(
+                  child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: SizedBox(
+                  height: 80,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return CategoryChip(
+                          label: categories[index].name,
+                          labelColor: _currentCategoryIndex == index
+                              ? Colors.white
+                              : ColorThemes.primarySwatch,
+                          backgroundColor: _currentCategoryIndex == index
+                              ? ColorThemes.primarySwatch
+                              : Colors.white,
+                          onTap: () {
+                            setState(() {
+                              _currentCategoryIndex = index;
+                              categorySelected = categories[index].name;
+                            });
+                            _scrollToSection(index);
+                          });
+                    },
+                    separatorBuilder: (context, _) {
+                      return const SizedBox(width: 5);
+                    },
+                    itemCount: categories.length,
+                  ),
+                ),
+              )),
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final category = categories[index];
+                  final sectionArticles = articlesBySection[category.name];
+                  int sectionArticleLength = sectionArticles?.length ?? 0;
+                  return AutoScrollTag(
+                    controller: _scrollController,
+                    index: index,
+                    key: ValueKey(index),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Visibility(
+                            visible: sectionArticleLength != 0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Text(
+                                category.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 16,
+                                    fontStyle: FontStyle.italic),
+                              ),
                             ),
                           ),
-                        ),
-                        Visibility(
-                          visible: sectionArticleLength != 0,
-                          child: const SizedBox(height: 8),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: sectionArticleLength,
-                          itemBuilder: (context, articleIndex) {
-                            final article = sectionArticles![articleIndex];
-                            // Affichez les articles ici
-                            return Visibility(
-                              visible: articleIndex < _visibleItemCount,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, bottom: 8.0),
-                                child: RecommendedArticle(
-                                  title: article.title,
-                                  category: article.category.name,
-                                  imageUrl: article.image,
-                                  publicationDate: article.publicationDate,
-                                  onIconPressed: () {},
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              ArticleDetailPage(
-                                                  article: article))),
+                          Visibility(
+                            visible: sectionArticleLength != 0,
+                            child: const SizedBox(height: 8),
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            itemCount: sectionArticleLength,
+                            itemBuilder: (context, articleIndex) {
+                              final article = sectionArticles![articleIndex];
+                              // Affichez les articles ici
+                              return Visibility(
+                                visible: articleIndex < _visibleItemCount,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, bottom: 8.0),
+                                  child: RecommendedArticle(
+                                    title: article.title,
+                                    category: article.category.name,
+                                    imageUrl: article.image,
+                                    publicationDate: article.publicationDate,
+                                    onIconPressed: () {},
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                ArticleDetailPage(
+                                                    article: article))),
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                        Visibility(
-                          visible: _visibleItemCount < sectionArticleLength,
-                          child: Center(
-                              child: TextButton(
-                                  onPressed: _onSeeMorePressed,
-                                  child: const Text(AppStrings.seeMore))),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
+                              );
+                            },
+                          ),
+                          Visibility(
+                            visible: _visibleItemCount < sectionArticleLength,
+                            child: Center(
+                                child: TextButton(
+                                    onPressed: _onSeeMorePressed,
+                                    child: const Text(AppStrings.seeMore))),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }, childCount: categories.length),
-            ),
-          ],
+                  );
+                }, childCount: categories.length),
+              ),
+            ],
+          ),
         ),
         Visibility(
           visible: !_isAtTop,

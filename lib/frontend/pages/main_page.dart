@@ -13,6 +13,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../utils/function.dart';
 import 'info_page.dart';
 import 'reportage_video_page.dart';
 
@@ -44,26 +45,22 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    final categoryProvider =
-        Provider.of<CategoryListProvider>(context, listen: false);
-    final articleProvider =
-        Provider.of<ArticleListProvider>(context, listen: false);
-    final editionProvider =
-        Provider.of<EditionListProvider>(context, listen: false);
-    final videoProvider =
-        Provider.of<VideoListProvider>(context, listen: false);
-    categoryProvider.listCategories();
-    articleProvider.listArticles();
-    videoProvider.listVideos();
-    editionProvider.listEditions();
+    CategoryProvider(context);
+    ArticleProvider(context);
+    VideoProvider(context);
+    EditionProvider(context);
     // Mettre en place le rafraîchissement périodique
-    _timer = Timer.periodic(_refreshDuration, (_) {
-      categoryProvider.listCategories();
-      articleProvider.listArticles();
-      editionProvider.listEditions();
-      videoProvider.listVideos();
-      debugPrint("Fetch de l'api après $_refreshDuration seconde(s).");
-    });
+    // _timer = Timer.periodic(_refreshDuration, (_) {
+    //   // categoryProvider.listCategories();
+    //   // articleProvider.listArticles();
+    //   // editionProvider.listEditions();
+    //   // videoProvider.listVideos();
+    //   CategoryProvider(context);
+    //   ArticleProvider(context);
+    //   VideoProvider(context);
+    //   EditionProvider(context);
+    //   debugPrint("Fetch de l'api après $_refreshDuration seconde(s).");
+    // });
     requestPermission();
     super.initState();
   }
@@ -78,12 +75,12 @@ class _MainPageState extends State<MainPage> {
       var status = await Permission.storage.request();
 
       if (status.isGranted) {
-        print('isGranted');
+        debugPrint('isGranted');
       } else if (status.isPermanentlyDenied) {
         openAppSettings();
       }
     } catch (e) {
-      print('~~error~~~>>>>>> $e');
+      debugPrint('~~error~~~>>>>>> $e');
     }
   }
 

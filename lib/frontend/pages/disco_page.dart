@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
 import 'package:le_grand_magazine/frontend/pages/article_detail_page.dart';
-import 'package:le_grand_magazine/frontend/pages/discover_page2.dart';
 import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:le_grand_magazine/frontend/widgets/carousel.dart';
 import 'package:le_grand_magazine/frontend/widgets/recommended_article.dart';
@@ -27,12 +26,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
   @override
   void initState() {
     super.initState();
-    // _scrollController.addListener(() {
-    //   setState(() {
-    //     _isAtTop = _scrollController.offset <=
-    //         _scrollController.position.minScrollExtent;
-    //   });
-    // });
+    _scrollController.addListener(() {
+      setState(() {
+        _isAtTop = _scrollController.offset <=
+            _scrollController.position.minScrollExtent;
+      });
+    });
   }
 
   List<GlobalKey<State<StatefulWidget>>> sectionKeys = [];
@@ -131,7 +130,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           ),
         ),
         Visibility(
-          // visible: !_isAtTop,
+          visible: !_isAtTop,
           child: Positioned(
             bottom: 16.0,
             right: 16.0,

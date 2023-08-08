@@ -33,7 +33,10 @@ class _CarouselState extends State<Carousel> {
           return Container(
             height: 280,
             color: Colors.grey[100],
-            child: const Center(child: Text("Vérifiez votre connection internet")),
+            child: const Center(child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+              strokeWidth: 8,
+            )),
           );
         } else if (snapshot.hasError) {
           // Gérez les erreurs éventuelles
