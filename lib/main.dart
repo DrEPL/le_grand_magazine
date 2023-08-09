@@ -11,6 +11,8 @@ import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import 'backend/services/live_service.dart';
+
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CategoryListProvider()),
         ChangeNotifierProvider(create: (context) => EditionListProvider()),
         ChangeNotifierProvider(create: (context) => VideoListProvider()),
+        ChangeNotifierProvider(create: (context) => LiveListProvider()),
       ],
       child: MaterialApp(
         title: AppStrings.appName,

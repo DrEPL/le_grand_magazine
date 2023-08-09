@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
 import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
@@ -63,6 +64,24 @@ class ArticleDetailPage extends StatelessWidget {
               ),
             ),
             Positioned(
+                top: 220,
+                right: 10,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Boxicons.bx_share_alt,
+                    color: Colors.white,
+                  ),
+                  label: const SizedBox.shrink(),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          50), // Choisissez le rayon de courbure souhaité
+                    ),
+                  ),
+                )),
+            Positioned(
               top: 130,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -107,7 +126,8 @@ class ArticleDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 width: MediaQuery.of(context).size.width,
                 height: 100,
-                constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - 270),
+                constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height - 270),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -121,11 +141,58 @@ class ArticleDetailPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(article.summary,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.justify,),
+                        Text(
+                          article.summary,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.justify,
+                        ),
                         const SizedBox(height: 10),
-                        Text(article.content, textAlign: TextAlign.justify,),
+                        Text(
+                          article.content,
+                          textAlign: TextAlign.justify,
+                        ),
+                        const SizedBox(height: 10),
+                        const SizedBox(height: 10),
+                        Visibility(
+                          visible: article.editor != null,
+                          child: Text.rich(
+                            TextSpan(
+                              text: "Auteur: ",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: article.editor,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            softWrap: true,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                        Text.rich(
+                          TextSpan(
+                            text: "Source: ",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: article.source,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                          softWrap: true,
+                          textAlign: TextAlign.justify,
+                        ),
                       ],
                     ),
                   ),

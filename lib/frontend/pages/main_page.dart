@@ -50,17 +50,17 @@ class _MainPageState extends State<MainPage> {
     VideoProvider(context);
     EditionProvider(context);
     // Mettre en place le rafraîchissement périodique
-    // _timer = Timer.periodic(_refreshDuration, (_) {
-    //   // categoryProvider.listCategories();
-    //   // articleProvider.listArticles();
-    //   // editionProvider.listEditions();
-    //   // videoProvider.listVideos();
-    //   CategoryProvider(context);
-    //   ArticleProvider(context);
-    //   VideoProvider(context);
-    //   EditionProvider(context);
-    //   debugPrint("Fetch de l'api après $_refreshDuration seconde(s).");
-    // });
+    _timer = Timer.periodic(_refreshDuration, (_) {
+      // categoryProvider.listCategories();
+      // articleProvider.listArticles();
+      // editionProvider.listEditions();
+      // videoProvider.listVideos();
+      CategoryProvider(context);
+      ArticleProvider(context);
+      VideoProvider(context);
+      EditionProvider(context);
+      debugPrint("Fetch de l'api après $_refreshDuration seconde(s).");
+    });
     requestPermission();
     super.initState();
   }

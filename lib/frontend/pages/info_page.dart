@@ -113,8 +113,7 @@ class _InfoPageState extends State<InfoPage> {
                     //   throw Exception('Impossible d\'ouvrir le lien');
                     // }
                   },
-                  child: const Text("www.legrandmagazine.cg",
-                      style: TextStyle(fontSize: 12))),
+                  child: const Text("www.legrandmagazine.cg")),
             ]),
           ),
           Padding(
@@ -129,8 +128,9 @@ class _InfoPageState extends State<InfoPage> {
                       Uri phone = Uri(scheme: 'tel', path: "+242066540303");
                       launchUrl(phone);
                     },
-                    child: const Text("+242 06 654 03 03",
-                        style: TextStyle(fontSize: 12))),
+                    child: const Text(
+                      "+242 06 654 03 03",
+                    )),
                 const Text("/"),
                 Flexible(
                   child: TextButton(
@@ -140,7 +140,6 @@ class _InfoPageState extends State<InfoPage> {
                       },
                       child: const Text(
                         "+242 05 393 06 24",
-                        style: TextStyle(fontSize: 12),
                       )),
                 ),
               ],
@@ -165,7 +164,6 @@ class _InfoPageState extends State<InfoPage> {
                   },
                   child: const Text(
                     "contact@legrandmagazine.cg",
-                    style: TextStyle(fontSize: 12),
                   )),
             ]),
           ),
@@ -184,10 +182,10 @@ class _InfoPageState extends State<InfoPage> {
                           ));
                     },
                     child: const Text(
-                        "1661, rue Matsiona Nzoulou en face de la préfecture de Brazzaville",
-                        softWrap: true,
-                        maxLines: 3,
-                        style: TextStyle(fontSize: 12))),
+                      "1661, rue Matsiona Nzoulou en face de la préfecture de Brazzaville",
+                      softWrap: true,
+                      maxLines: 3,
+                    )),
               ),
             ]),
           ),
@@ -246,7 +244,7 @@ class _InfoPageState extends State<InfoPage> {
             child: Text(
               "Copyright © ${DateTime.now().year} LE GRAND RHEMA",
               style: const TextStyle(
-                  color: Color.fromARGB(255, 112, 112, 112), fontSize: 10),
+                  color: Color.fromARGB(255, 112, 112, 112)),
             ),
           )
         ],
