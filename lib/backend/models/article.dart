@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:le_grand_magazine/backend/models/category.dart';
@@ -11,7 +9,6 @@ class Article {
   final String image;
   final String content;
   final String? editor;
-  final String section;
   final Category category;
   final DateTime publicationDate;
   final bool isBreakingNews;
@@ -22,7 +19,6 @@ class Article {
     required this.image,
     required this.content,
     this.editor,
-    required this.section,
     required this.category,
     required this.publicationDate,
     required this.isBreakingNews,
@@ -35,7 +31,6 @@ class Article {
     String? image,
     String? content,
     String? editor,
-    String? section,
     Category? category,
     DateTime? publicationDate,
     bool? isBreakingNews,
@@ -47,7 +42,6 @@ class Article {
       image: image ?? this.image,
       content: content ?? this.content,
       editor: editor ?? this.editor,
-      section: section ?? this.section,
       category: category ?? this.category,
       publicationDate: publicationDate ?? this.publicationDate,
       isBreakingNews: isBreakingNews ?? this.isBreakingNews,
@@ -62,7 +56,6 @@ class Article {
       'image': image,
       'content': content,
       'editor': editor,
-      'section': section,
       'category': category.toMap(),
       'publicationDate': publicationDate.millisecondsSinceEpoch,
       'isBreakingNews': isBreakingNews,
@@ -77,7 +70,6 @@ class Article {
       image: map['image'] ?? '',
       content: map['content'] ?? '',
       editor: map['editor'],
-      section: map['section'] ?? '',
       category: Category.fromMap(map['category']),
       publicationDate: DateTime.parse(map['publicationDate']),
       isBreakingNews: map['isBreakingNews'] ?? false,
@@ -86,41 +78,40 @@ class Article {
 
   String toJson() => json.encode(toMap());
 
-  factory Article.fromJson(String source) => Article.fromMap(json.decode(source));
+  factory Article.fromJson(String source) =>
+      Article.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Article(title: $title, summary: $summary, source: $source, image: $image, content: $content, editor: $editor, section: $section, category: $category, publicationDate: $publicationDate, isBreakingNews: $isBreakingNews)';
+    return 'Article(title: $title, résumé: $summary, source: $source, image: $image, contenu: $content, éditeur: $editor, categorie: $category, publicationDate: $publicationDate, isBreakingNews: $isBreakingNews)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Article &&
-      other.title == title &&
-      other.summary == summary &&
-      other.source == source &&
-      other.image == image &&
-      other.content == content &&
-      other.editor == editor &&
-      other.section == section &&
-      other.category == category &&
-      other.publicationDate == publicationDate &&
-      other.isBreakingNews == isBreakingNews;
+        other.title == title &&
+        other.summary == summary &&
+        other.source == source &&
+        other.image == image &&
+        other.content == content &&
+        other.editor == editor &&
+        other.category == category &&
+        other.publicationDate == publicationDate &&
+        other.isBreakingNews == isBreakingNews;
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-      summary.hashCode ^
-      source.hashCode ^
-      image.hashCode ^
-      content.hashCode ^
-      editor.hashCode ^
-      section.hashCode ^
-      category.hashCode ^
-      publicationDate.hashCode ^
-      isBreakingNews.hashCode;
+        summary.hashCode ^
+        source.hashCode ^
+        image.hashCode ^
+        content.hashCode ^
+        editor.hashCode ^
+        category.hashCode ^
+        publicationDate.hashCode ^
+        isBreakingNews.hashCode;
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:le_grand_magazine/backend/models/article.dart';
 import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:le_grand_magazine/frontend/widgets/category_chip.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ArticleDetailPage extends StatelessWidget {
   final Article article;
@@ -67,7 +68,10 @@ class ArticleDetailPage extends StatelessWidget {
                 top: 220,
                 right: 10,
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final shareText = "${article.category.name} \n\n ${article.title} \n\n ${article.content} \n\n ${article.summary} \n\n ${_displayPublicationDate(article.publicationDate)} \n\n";
+                    await Share.share(shareText);
+                  },
                   icon: const Icon(
                     Boxicons.bx_share_alt,
                     color: Colors.white,

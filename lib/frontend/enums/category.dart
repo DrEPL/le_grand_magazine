@@ -8,7 +8,8 @@ enum Category {
   Culture,
   Agenda,
   Tech,
-  Diaspora
+  Diaspora,
+  Env
 }
 
 extension CategoryExtension on Category {
@@ -36,6 +37,8 @@ extension CategoryExtension on Category {
         return "Agenda";
       case "Tech":
         return "Technologie";
+      case "Env":
+        return "Environnement";
       default:
         return "Inconnue";
     }

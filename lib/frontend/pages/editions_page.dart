@@ -28,7 +28,7 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
     final currentYear = DateTime.now().year;
     final years = <String>[];
 
-    for (int year = currentYear; year >= 2014; year--) {
+    for (int year = currentYear; year >= 2016; year--) {
       if (years.isEmpty) {
         years.add("Toutes");
       }
@@ -56,9 +56,9 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
     List<Edition> editions = editionProvider.listOfEdition;
     return RefreshIndicator(
       onRefresh: () async {
-            EditionProvider(context);
-            debugPrint("Tirer vers le bas");
-          },
+        EditionProvider(context);
+        debugPrint("Tirer vers le bas");
+      },
       child: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: Column(
@@ -71,10 +71,8 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
                     fontSize: 40,
                     fontFamily: 'DIN')),
             Text(AppStrings.savedDescription,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w400, color: Colors.black)),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w400, color: Colors.black)),
             SizedBox(
               height: 80,
               child: ListView.separated(
@@ -145,7 +143,8 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
                                   )
                                 : const SizedBox.shrink();
                       },
-                      separatorBuilder: (context, _) => const SizedBox(height: 5),
+                      separatorBuilder: (context, _) =>
+                          const SizedBox(height: 5),
                       itemCount: editions.length,
                     ),
                   ),

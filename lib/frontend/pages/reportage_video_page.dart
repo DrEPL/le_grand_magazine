@@ -24,7 +24,8 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
   List<Video> videoUrls = [];
   List<Video> liveUrls = [];
   List<VideoPlayerController> _controllers = [];
-  List<YoutubePlayerController> _controllersYoutube = [];
+  List<YoutubePlayerController> _liveControllers = [];
+  // List<YoutubePlayerController> _videoControllers = [];
   List<bool> _isPlaying = [];
   Timer? _timer;
   final AutoScrollController _scrollController = AutoScrollController();
@@ -73,6 +74,25 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
       });
       // }
     }
+    // for (final video in videoUrls) {
+    //   // if (!video.isLive) {
+    //   String videoId;
+    //   videoId = YoutubePlayer.convertUrlToId(video.video_link) ?? "XXhFp0u_mXc";
+    //   final videoController = YoutubePlayerController(
+    //     initialVideoId: videoId, // ID de la vidéo YouTube
+    //     flags: const YoutubePlayerFlags(
+    //       autoPlay: false,
+    //       mute: false,
+    //     ),
+    //   );
+    //   setState(() {
+    //     _videoControllers.add(videoController);
+    //     // Défaut : la vidéo n'est pas en cours de lecture
+    //     _isPlaying.add(false);
+    //   });
+
+    //   // }
+    // }
     for (final live in liveUrls) {
       // if (live.isLive) {
       String videoId;
@@ -85,7 +105,7 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
         ),
       );
       setState(() {
-        _controllersYoutube.add(youtubeController);
+        _liveControllers.add(youtubeController);
         // Défaut : la vidéo n'est pas en cours de lecture
         _isPlaying.add(false);
       });
@@ -99,41 +119,14 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
   @override
   void dispose() {
     _timer?.cancel();
-    // for (final controller in _controllers) {
-    //   controller.dispose();
-    // }
-    for (final controller in _controllersYoutube) {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    for (final controller in _liveControllers) {
       controller.dispose();
     }
     super.dispose();
   }
-
-  // void _playPauseVideo(int index) {
-  //   setState(() {
-  //     for (var i = 0; i < _controllers.length; i++) {
-  //       if (i != index) {
-  //         _controllers[i].pause();
-  //         _isPlaying[i] = false;
-  //       }
-  //     }
-
-  //     if (_isPlaying[index]) {
-  //       _controllers[index].pause();
-  //     } else {
-  //       _controllers[index].play();
-  //     }
-  //     _isPlaying[index] = !_isPlaying[index];
-  //   });
-  // }
-
-  // void _resetVideoPlayers() {
-  //   for (final controller in _controllers) {
-  //     controller.dispose();
-  //   }
-  //   _controllers.clear();
-  //   _isPlaying.clear();
-  //   _initializeVideoPlayers();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -241,6 +234,23 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
                                                     videoPlayerController:
                                                         _controllers[index])),
                                           ),
+                                          // ClipRRect(
+                                          //   borderRadius: const BorderRadius
+                                          //           .vertical(
+                                          //       top: Radius.circular(
+                                          //           20.0)), // Mettez la même valeur que la forme de votre Card
+                                          //   child: AspectRatio(
+                                          //     aspectRatio: 16 / 9,
+                                          //     child: YoutubePlayer(
+                                          //       controller:
+                                          //           _videoControllers[index],
+                                          //       showVideoProgressIndicator:
+                                          //           true,
+                                          //       progressIndicatorColor:
+                                          //           ColorThemes.primarySwatch,
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
@@ -332,7 +342,7 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
                         shrinkWrap: true,
                         controller: _scrollController,
                         physics: const ClampingScrollPhysics(),
-                        itemCount: _controllersYoutube.length,
+                        itemCount: _liveControllers.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -350,17 +360,23 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
                                       children: [
                                         Stack(
                                           children: [
-                                            AspectRatio(
-                                              aspectRatio: 16 / 9,
-                                              child: YoutubePlayer(
-                                                controller:
-                                                    _controllersYoutube[index],
-                                                showVideoProgressIndicator:
-                                                    true,
-                                                progressIndicatorColor:
-                                                    ColorThemes.primarySwatch,
-                                                liveUIColor:
-                                                    ColorThemes.primarySwatch,
+                                            ClipRRect(
+                                              borderRadius: const BorderRadius
+                                                      .vertical(
+                                                  top: Radius.circular(
+                                                      20.0)), // Mettez la même valeur que la forme de votre Card
+                                              child: AspectRatio(
+                                                aspectRatio: 16 / 9,
+                                                child: YoutubePlayer(
+                                                  controller:
+                                                      _liveControllers[index],
+                                                  showVideoProgressIndicator:
+                                                      true,
+                                                  progressIndicatorColor:
+                                                      ColorThemes.primarySwatch,
+                                                  liveUIColor:
+                                                      ColorThemes.primarySwatch,
+                                                ),
                                               ),
                                             ),
                                             Positioned(

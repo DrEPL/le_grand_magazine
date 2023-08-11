@@ -33,15 +33,18 @@ class _CarouselState extends State<Carousel> {
           return Container(
             height: 280,
             color: Colors.grey[100],
-            child: const Center(child: CircularProgressIndicator(
+            child: const Center(
+                child: CircularProgressIndicator(
               backgroundColor: Colors.white,
               strokeWidth: 8,
             )),
           );
         } else if (snapshot.hasError) {
           // Gérez les erreurs éventuelles
-          return const Center(
-            child: Text('Erreur de connection'),
+          return Container(
+            height: 280,
+            color: Colors.grey[100],
+            child: const Center(child: Text('Erreur de connexion')),
           );
         } else {
           // Récupérez les articles à partir du snapshot et continuez avec le reste du code
@@ -53,7 +56,7 @@ class _CarouselState extends State<Carousel> {
           //     breakingNews.add(article);
           //   }
           // }
-          for (int i = 0; i < articles.length && i < 8; i++) {
+          for (int i = 0; i < articles.length && i < 6; i++) {
             breakingNews.add(articles[i]);
           }
 

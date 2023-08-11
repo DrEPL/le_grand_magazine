@@ -106,67 +106,72 @@ class _SearcheBarPageState extends State<SearcheBarPage> {
           ),
           elevation: 0,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: filteredArticles.isNotEmpty
-              ? Stack(children: [
-                  GridView.builder(
-                    controller: _scrollController,
-                    gridDelegate: gridDelegate,
-                    itemCount: filteredArticles.isNotEmpty
-                        ? filteredArticles.length
-                        : articles.length,
-                    itemBuilder: (context, index) {
-                      final article = filteredArticles.isNotEmpty
-                          ? filteredArticles
-                          : articles;
-                      return RecommendedArticle(
-                        title: article[index].title,
-                        category: article[index].category.name,
-                        imageUrl: article[index].image,
-                        publicationDate: article[index].publicationDate,
-                        onIconPressed: () {},
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    ArticleDetailPage(
-                                        article: article[index]))),
-                      );
-                    },
-                  ),
-                  Visibility(
-                    visible: !_isAtTop,
-                    child: Positioned(
-                      bottom: 16.0,
-                      right: 16.0,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          _scrollController.animateTo(0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut);
-                        },
-                        child: const Icon(Icons.arrow_upward),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: filteredArticles.isNotEmpty
+                ? Stack(children: [
+                    GridView.builder(
+                      controller: _scrollController,
+                      primary: false,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: gridDelegate,
+                      itemCount: filteredArticles.isNotEmpty
+                          ? filteredArticles.length
+                          : articles.length,
+                      itemBuilder: (context, index) {
+                        final article = filteredArticles.isNotEmpty
+                            ? filteredArticles
+                            : articles;
+                        return RecommendedArticle(
+                          title: article[index].title,
+                          category: article[index].category.name,
+                          imageUrl: article[index].image,
+                          publicationDate: article[index].publicationDate,
+                          onIconPressed: () {},
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ArticleDetailPage(
+                                          article: article[index]))),
+                        );
+                      },
+                    ),
+                    Visibility(
+                      visible: !_isAtTop,
+                      child: Positioned(
+                        bottom: 16.0,
+                        right: 16.0,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            _scrollController.animateTo(0,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut);
+                          },
+                          child: const Icon(Icons.arrow_upward),
+                        ),
                       ),
                     ),
+                  ])
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/search_not_found.png', // Chemin vers votre fichier SVG
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.width * 0.8,
+                        ),
+                        const Text(
+                          'Aucun résultat trouvé',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
                   ),
-                ])
-              : Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/search_not_found.png', // Chemin vers votre fichier SVG
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.width * 0.8,
-                      ),
-                      const Text(
-                        'Aucun résultat trouvé',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                ),
+          ),
         ));
   }
 }

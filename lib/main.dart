@@ -1,4 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:le_grand_magazine/backend/services/article_services.dart';
@@ -11,14 +12,11 @@ import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import 'backend/services/live_service.dart';
-
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,26 +30,28 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CategoryListProvider()),
         ChangeNotifierProvider(create: (context) => EditionListProvider()),
         ChangeNotifierProvider(create: (context) => VideoListProvider()),
-        ChangeNotifierProvider(create: (context) => LiveListProvider()),
       ],
-      child: MaterialApp(
-        title: AppStrings.appName,
-        theme: ThemeData(
-            fontFamily: 'EuclidCircular',
-            primarySwatch: ColorThemes.primarySwatch,
-            visualDensity: VisualDensity.adaptivePlatformDensity),
-        debugShowCheckedModeBanner: false,
-        home:
-        // const MainPage(),
-        SafeArea(
-          child: AnimatedSplashScreen(
-            duration: 1000,
-            splash: Image.asset("assets/images/logo.png", width: screenSize.width, height: screenSize.height),
-            nextScreen: const MainPage(),
-            splashTransition: SplashTransition.fadeTransition,
-            pageTransitionType: PageTransitionType.fade,
-            backgroundColor: ColorThemes.primarySwatch,),
-        )
+      child: ConnectivityAppWrapper(
+        app: MaterialApp(
+            title: AppStrings.appName,
+            theme: ThemeData(
+                fontFamily: 'EuclidCircular',
+                primarySwatch: ColorThemes.primarySwatch,
+                visualDensity: VisualDensity.adaptivePlatformDensity),
+            debugShowCheckedModeBanner: false,
+            home:
+                // const MainPage(),
+                SafeArea(
+              child: AnimatedSplashScreen(
+                duration: 1000,
+                splash: Image.asset("assets/images/logo.png",
+                    width: screenSize.width, height: screenSize.height),
+                nextScreen: const MainPage(),
+                splashTransition: SplashTransition.fadeTransition,
+                pageTransitionType: PageTransitionType.fade,
+                backgroundColor: ColorThemes.primarySwatch,
+              ),
+            )),
       ),
     );
   }
