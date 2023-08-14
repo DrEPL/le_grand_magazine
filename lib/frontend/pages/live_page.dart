@@ -29,7 +29,7 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
   Timer? _timer;
   final AutoScrollController _scrollController = AutoScrollController();
   final Duration _refreshDuration = const Duration(
-      minutes: 4); // Temps d'attente avant chaque rafraîchissement
+      minutes: 5); // Temps d'attente avant chaque rafraîchissement
   bool _isAtTop = true;
 
   @override
@@ -61,8 +61,7 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
           // Défaut : la vidéo n'est pas en cours de lecture
           _isPlaying.add(false);
         });
-      } 
-      else {
+      } else {
         String videoId;
         videoId = YoutubePlayer.convertUrlToId(video.video_link) ?? "";
         final youtubeController = YoutubePlayerController(

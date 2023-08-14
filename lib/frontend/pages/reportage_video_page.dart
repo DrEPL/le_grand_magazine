@@ -8,6 +8,7 @@ import 'package:le_grand_magazine/frontend/utils/app_strings.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:video_player/video_player.dart';
+// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../themes/colors_theme.dart';
 import '../utils/function.dart';
@@ -30,7 +31,7 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
   Timer? _timer;
   final AutoScrollController _scrollController = AutoScrollController();
   final Duration _refreshDuration = const Duration(
-      minutes: 4); // Temps d'attente avant chaque rafraîchissement
+      minutes: 10); // Temps d'attente avant chaque rafraîchissement
   bool _isAtTop = true;
 
   @override
@@ -104,6 +105,19 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
           mute: false,
         ),
       );
+      // If the requirement is just to play a single video.
+      // videoId = YoutubePlayerController.convertUrlToId(live.video_link) ??
+      //     "XXhFp0u_mXc";
+
+      // final youtubeController = YoutubePlayerController.fromVideoId(
+      //   videoId: videoId,
+      //   autoPlay: false,
+      //   params: const YoutubePlayerParams(
+      //     mute: false,
+      //     showControls: true,
+      //     showFullscreenButton: true,
+      //   ),
+      // );
       setState(() {
         _liveControllers.add(youtubeController);
         // Défaut : la vidéo n'est pas en cours de lecture
@@ -130,6 +144,7 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size sizeOfScreen = MediaQuery.of(context).size;
     return DefaultTabController(
         length: 2,
         child: Column(
@@ -214,100 +229,114 @@ class _ReportageVideoPageState extends State<ReportageVideoPage> {
                               padding:
                                   const EdgeInsets.only(top: 10, bottom: 10),
                               child: SizedBox(
-                                height: 340,
-                                child: Visibility(
-                                    visible: !videoUrls[index].isLive,
-                                    child: Card(
-                                      clipBehavior: Clip.hardEdge,
-                                      elevation: 10,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0)),
-                                      child: Column(
-                                        children: [
-                                          AspectRatio(
-                                            aspectRatio: _controllers[index]
-                                                .value
-                                                .aspectRatio,
-                                            child: FlickVideoPlayer(
-                                                flickManager: FlickManager(
-                                                    videoPlayerController:
-                                                        _controllers[index])),
-                                          ),
-                                          // ClipRRect(
-                                          //   borderRadius: const BorderRadius
-                                          //           .vertical(
-                                          //       top: Radius.circular(
-                                          //           20.0)), // Mettez la même valeur que la forme de votre Card
-                                          //   child: AspectRatio(
-                                          //     aspectRatio: 16 / 9,
-                                          //     child: YoutubePlayer(
-                                          //       controller:
-                                          //           _videoControllers[index],
-                                          //       showVideoProgressIndicator:
-                                          //           true,
-                                          //       progressIndicatorColor:
-                                          //           ColorThemes.primarySwatch,
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 8.0),
-                                                  child: Text(
-                                                    videoUrls[index].title,
-                                                    textAlign: TextAlign.right,
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily: 'DIN'),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 50,
-                                                  child: SingleChildScrollView(
+                                  height: sizeOfScreen.width < 420 ? 340 : 400,
+                                  child: Stack(
+                                    children: [
+                                      if (_controllers[index].value.isBuffering)
+                                        const Center(
+                                            child: CircularProgressIndicator(
+                                          backgroundColor: Colors.white,
+                                          strokeWidth: 8,
+                                        )),
+                                      Visibility(
+                                          // visible: !videoUrls[index].isLive,
+                                          child: Card(
+                                        clipBehavior: Clip.hardEdge,
+                                        elevation: 10,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Column(
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: _controllers[index]
+                                                  .value
+                                                  .aspectRatio,
+                                              child: FlickVideoPlayer(
+                                                  flickManager: FlickManager(
+                                                      videoPlayerController:
+                                                          _controllers[index])),
+                                            ),
+                                            // ClipRRect(
+                                            //   borderRadius: const BorderRadius
+                                            //           .vertical(
+                                            //       top: Radius.circular(
+                                            //           20.0)), // Mettez la même valeur que la forme de votre Card
+                                            //   child: AspectRatio(
+                                            //     aspectRatio: 16 / 9,
+                                            //     child: YoutubePlayer(
+                                            //       controller:
+                                            //           _videoControllers[index],
+                                            //       showVideoProgressIndicator:
+                                            //           true,
+                                            //       progressIndicatorColor:
+                                            //           ColorThemes.primarySwatch,
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8.0),
                                                     child: Text(
-                                                      videoUrls[index].summary,
+                                                      videoUrls[index].title,
                                                       textAlign:
-                                                          TextAlign.justify,
-                                                      softWrap: true,
-                                                      // maxLines: 8,
-                                                      // overflow: TextOverflow.ellipsis,
+                                                          TextAlign.right,
                                                       style: const TextStyle(
-                                                        fontSize: 12,
-                                                      ),
+                                                          fontSize: 14,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily: 'DIN'),
                                                     ),
                                                   ),
-                                                )
-                                              ],
+                                                  SizedBox(
+                                                    height: 50,
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Text(
+                                                        videoUrls[index]
+                                                            .summary,
+                                                        textAlign:
+                                                            TextAlign.justify,
+                                                        softWrap: true,
+                                                        // maxLines: 8,
+                                                        // overflow: TextOverflow.ellipsis,
+                                                        style: const TextStyle(
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Text(
-                                            _displayPublicationDate(
-                                                videoUrls[index].created_at),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(
-                                                    color: Colors.grey,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                              ));
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              _displayPublicationDate(
+                                                  videoUrls[index].created_at),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                    ],
+                                  )));
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox.shrink();

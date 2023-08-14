@@ -27,13 +27,19 @@ class EditionCard extends StatefulWidget {
 
 class _EditionCardState extends State<EditionCard> {
   int compteur = 0;
+  double _progress = 0.0;
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenSize.width * 0.1),
+      padding: EdgeInsets.symmetric(
+          vertical: 5.0,
+          horizontal: screenSize.width < 420
+              ? screenSize.width * 0.14
+              : screenSize.width * 0.2),
       child: SizedBox(
-        height: 410,
+        height: screenSize.width < 420 ? 410 : 420,
         child: Card(
           clipBehavior: Clip.antiAlias,
           elevation: 10,
@@ -96,15 +102,22 @@ class _EditionCardState extends State<EditionCard> {
   }
 
   Future<void> downloadPDF(String url, String savePath,
-      {Function(double)? onProgress, Function(String)? onCompleted}) async {
+      {Function(double)? onProgress,
+      Function(String)? onCompleted,
+      required CancelToken cancelToken}) async {
     final dio = Dio();
     try {
-      await dio.download(url, savePath, onReceiveProgress: (received, total) {
-        if (total != -1 && onProgress != null) {
-          double progress = received / total;
-          onProgress(progress);
-        }
-      });
+      await dio.download(
+        url,
+        savePath,
+        onReceiveProgress: (received, total) {
+          if (total != -1 && onProgress != null) {
+            double progress = received / total;
+            onProgress(progress);
+          }
+        },
+        cancelToken: cancelToken,
+      );
 
       if (onCompleted != null) {
         onCompleted(savePath);
@@ -118,12 +131,13 @@ class _EditionCardState extends State<EditionCard> {
     String pdfUrl = widget.pdfUrl;
     String name = "LGM_${widget.periode.replaceFirst(' ', '')}";
     String savePath = '/storage/emulated/0/Download/$name.pdf';
-    double _progress = 0.0;
+    CancelToken cancelToken = CancelToken();
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) {
+            print("chargement: $_progress");
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
@@ -139,6 +153,8 @@ class _EditionCardState extends State<EditionCard> {
               actions: [
                 ElevatedButton(
                   onPressed: () {
+                    cancelToken
+                        .cancel("Téléchargement annulé par l'utilisateur.");
                     Navigator.pop(context);
                   },
                   child: const Center(child: Text('Annuler')),
@@ -153,9 +169,11 @@ class _EditionCardState extends State<EditionCard> {
     await downloadPDF(
       pdfUrl,
       savePath,
+      cancelToken: cancelToken,
       onProgress: (progress) {
         setState(() {
           _progress = progress;
+          print("Progression1: $progress");
         });
       },
       onCompleted: (path) {

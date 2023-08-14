@@ -2,10 +2,6 @@ import 'dart:async';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/modern_pictograms_icons.dart';
-import 'package:le_grand_magazine/backend/services/article_services.dart';
-import 'package:le_grand_magazine/backend/services/category_services.dart';
-import 'package:le_grand_magazine/backend/services/edition_services.dart';
-import 'package:le_grand_magazine/backend/services/video_services.dart';
 import 'package:le_grand_magazine/frontend/pages/discover_page.dart';
 import 'package:le_grand_magazine/frontend/pages/home_page.dart';
 import 'package:le_grand_magazine/frontend/pages/editions_page.dart';
@@ -13,7 +9,6 @@ import 'package:le_grand_magazine/frontend/pages/search_bar_page.dart';
 import 'package:le_grand_magazine/frontend/themes/colors_theme.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/function.dart';
 import 'info_page.dart';
@@ -37,7 +32,7 @@ class _MainPageState extends State<MainPage> {
   int currentPage = 0;
   Timer? _timer;
   final Duration _refreshDuration = const Duration(
-      seconds: 60); // Temps d'attente avant chaque rafraîchissement
+      minutes: 5); // Temps d'attente avant chaque rafraîchissement
 
   @override
   void dispose() {
