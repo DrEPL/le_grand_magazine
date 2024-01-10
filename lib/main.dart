@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         app: MaterialApp(
             title: AppStrings.appName,
             theme: ThemeData(
+               useMaterial3: false,
                 fontFamily: 'EuclidCircular',
                 primarySwatch: ColorThemes.primarySwatch,
                 visualDensity: VisualDensity.adaptivePlatformDensity),
